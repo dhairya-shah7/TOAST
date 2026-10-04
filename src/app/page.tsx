@@ -9,29 +9,22 @@ import {
   FileArchive,
   FileText,
   Flame,
-  GraduationCap,
   LayoutDashboard,
   Lock,
   QrCode,
   RefreshCw,
   Search,
   Server,
-  ShieldAlert,
   Sparkles,
   Trophy,
   Upload,
-  Users,
-  Video,
   Workflow,
-  Zap,
   ArrowUpRight,
-  Download,
-  Check,
-  AlertTriangle,
   Sun,
   Moon,
   Send,
-  Layers,
+  Zap,
+  Check,
 } from "lucide-react";
 import type {
   UniversityState,
@@ -78,7 +71,7 @@ export default function ToastUniversityOS() {
   // AI Copilot state
   const [aiPrompt, setAiPrompt] = useState<string>("");
   const [aiResponse, setAiResponse] = useState<string>(
-    "Ask me anything about your enrolled Semester 5 courses (CS-301 Compiler Design, CS-302 OS, CS-303 Networks, CS-304 Cyber Security), your attendance safe-bunk margin, or upcoming deadlines."
+    "Select a prompt chip or ask anything about your enrolled Semester 5 courses (CS-301 Compiler Design, CS-302 OS, CS-303 Networks, CS-304 Cyber Security), your attendance safe-bunk margin, or upcoming deadlines."
   );
   const [aiCitations, setAiCitations] = useState<string[]>([
     "pgvector Course Index • 4 Enrolled Semester 5 Courses",
@@ -95,7 +88,7 @@ export default function ToastUniversityOS() {
   // Live Exam Demo state
   const [selectedExamAnswer, setSelectedExamAnswer] = useState<number | null>(1);
   const [examAutosaveStatus, setExamAutosaveStatus] = useState<string>(
-    "Saved to Redis Hash exam:attempt:24BCE1042 in 3.2 ms"
+    "Saved to Redis Hash exam:attempt:24BCE1042 in 2.4 ms"
   );
 
   const fetchUniversityState = useCallback(async () => {
@@ -148,7 +141,9 @@ export default function ToastUniversityOS() {
   const handleAttendanceCheckIn = async (mode: "PIN" | "QR_AUTO") => {
     if (!state) return;
     const pinToUse =
-      mode === "QR_AUTO" ? "QR_AUTO" : attendancePinInput || state.liveAttendance.pinCode;
+      mode === "QR_AUTO"
+        ? "QR_AUTO"
+        : attendancePinInput || state.liveAttendance.pinCode;
     const res = await mutateUniversity("CHECK_IN_ATTENDANCE", {
       studentId: "usr-student-1",
       pinCode: pinToUse,
@@ -157,7 +152,7 @@ export default function ToastUniversityOS() {
       setAttendanceFeedback(`⚠️ ${res.error}`);
     } else {
       setAttendanceFeedback(
-        "✅ Checked in via Redis HMAC Verification (<2ms) • +15 Academic XP!"
+        "✓ Checked in via Redis HMAC Verification (<2ms) • +15 Academic XP"
       );
     }
   };
@@ -188,7 +183,7 @@ export default function ToastUniversityOS() {
         setLastCompressedMsg(
           `Optimized ${json.job.originalName}: ${origMb} MB → ${compMb} MB (-${json.job.reductionPct}% in ${json.job.durationMs}ms)${
             attachDeadlineId !== "NONE"
-              ? " & attached to assignment with locked timestamp!"
+              ? " & attached with locked timestamp!"
               : "!"
           }`
         );
@@ -220,16 +215,16 @@ export default function ToastUniversityOS() {
 
   if (!state) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm max-w-md w-full text-center space-y-3">
-          <div className="w-12 h-12 rounded-xl bg-blue-700 text-white font-bold text-xl flex items-center justify-center mx-auto">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-6">
+        <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm max-w-md w-full text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-zinc-950 text-white font-orbitron font-bold text-lg flex items-center justify-center mx-auto">
             T
           </div>
-          <h1 className="text-lg font-semibold text-slate-900">
-            Bootstrapping TOAST University OS…
+          <h1 className="font-orbitron text-base font-semibold text-zinc-950">
+            INITIALIZING TOAST OS…
           </h1>
-          <p className="text-sm text-slate-600">
-            Connecting to High-Concurrency Academic State & Daylight UI Engine
+          <p className="font-mono text-xs text-zinc-500">
+            Syncing University Cluster • Vengeance UI Daylight Kernel
           </p>
         </div>
       </div>
@@ -265,48 +260,57 @@ export default function ToastUniversityOS() {
   const selectedCourse: CourseOffering =
     state.courses.find((c) => c.id === selectedCourseId) || state.courses[0];
 
-  const surfaceClass = isDark
-    ? "bg-slate-900 border-slate-800 text-slate-100"
-    : "bg-white border-slate-200 text-slate-900";
-  const canvasClass = isDark
-    ? "bg-slate-950 text-slate-100"
-    : "bg-[#F8FAFC] text-[#0F172A]";
-  const subtleBg = isDark ? "bg-slate-800/70" : "bg-slate-100/80";
-  const mutedText = isDark ? "text-slate-400" : "text-slate-600";
+  const borderCol = isDark ? "border-[#222226]" : "border-neutral-200/90";
+  const divideCol = isDark ? "divide-[#222226]" : "divide-neutral-200/90";
+  const bgMain = isDark
+    ? "bg-[#050608] text-zinc-100"
+    : "bg-[#FAFAFA] text-zinc-950";
+  const cardSurface = isDark
+    ? "bg-[#0A0B0E] border-[#222226] text-zinc-100"
+    : "bg-white border-neutral-200/90 text-zinc-950";
+  const mutedText = isDark ? "text-zinc-400" : "text-zinc-500";
+  const motionIslandClass = isDark
+    ? "vng-motion-island-dark vng-grid-dark border-white/[0.08]"
+    : "vng-motion-island-light vng-grid-light border-white/85";
+  const glassCardClass = isDark
+    ? "vng-glass-card-dark border-white/[0.08] text-zinc-100"
+    : "vng-glass-card-light border-white/95 text-zinc-950";
 
   return (
-    <div className={`min-h-screen flex flex-col ${canvasClass} transition-colors`}>
+    <div className={`min-h-screen flex flex-col pb-24 ${bgMain} transition-colors`}>
       {/* =====================================================================
-          TOP UNIVERSITY SERVER TELEMETRY & MULTI-USER ROLE SWITCHER BAR
+          1. VENGEANCE UI TOP ARCHITECTURAL TELEMETRY STRIP
       ===================================================================== */}
-      <div className="bg-slate-900 text-slate-200 text-xs border-b border-slate-800 px-4 py-2">
-        <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div className={`border-b ${borderCol} text-[11px] font-mono`}>
+        <div
+          className={`mx-auto max-w-[1520px] md:px-6 xl:px-12 md:border-x ${borderCol} py-2 px-4 flex flex-wrap items-center justify-between gap-2`}
+        >
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-medium border border-emerald-500/30">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              UNIVERSITY CLUSTER LIVE
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              CLUSTER ONLINE
             </span>
-            <span className="font-mono tabular-nums text-slate-300">
-              <strong className="text-white">
+            <span className="tabular-nums">
+              <strong>
                 {state.serverMetrics.concurrentUsersOnline.toLocaleString()}
               </strong>{" "}
-              Concurrent Users
+              Active Users
             </span>
-            <span className="hidden md:inline text-slate-500">•</span>
-            <span className="hidden md:inline font-mono tabular-nums text-slate-300">
+            <span className={mutedText}>/</span>
+            <span className="hidden sm:inline tabular-nums">
               PgBouncer:{" "}
-              <strong className="text-blue-300">
-                {state.serverMetrics.pgBouncerPooledConnections.toLocaleString()} →{" "}
-                {state.serverMetrics.activePgConnections} PG Conns
+              <strong>
+                {state.serverMetrics.pgBouncerPooledConnections.toLocaleString()}{" "}
+                → {state.serverMetrics.activePgConnections} PG
               </strong>
             </span>
-            <span className="hidden lg:inline text-slate-500">•</span>
-            <span className="hidden lg:inline font-mono tabular-nums text-slate-300">
-              Redis Hit:{" "}
-              <strong className="text-emerald-300">
+            <span className={`hidden md:inline ${mutedText}`}>/</span>
+            <span className="hidden md:inline tabular-nums">
+              Redis SWR:{" "}
+              <strong className="text-emerald-600 dark:text-emerald-400">
                 {state.serverMetrics.redisHitRatePct}%
               </strong>{" "}
-              ({state.serverMetrics.avgApiLatencyMs}ms avg)
+              ({state.serverMetrics.avgApiLatencyMs}ms)
             </span>
             <button
               onClick={() =>
@@ -317,25 +321,30 @@ export default function ToastUniversityOS() {
                       : "EXAM_SPIKE",
                 })
               }
-              className="px-2 py-0.5 rounded bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/40 font-medium transition"
+              className="px-2.5 py-0.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-[10px] uppercase tracking-wider font-semibold transition"
             >
               {state.serverMetrics.concurrentUsersOnline > 10000
-                ? "Reset to Normal Load (6.4k)"
+                ? "Reset Load (6.4k)"
                 : "⚡ Simulate 18.4k Exam Spike"}
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <span className="text-slate-400 mr-1">Switch Live Role:</span>
+          {/* Multi-User Live Role Switcher */}
+          <div className="flex items-center gap-1">
+            <span className={`mr-1.5 uppercase tracking-wider text-[10px] ${mutedText}`}>
+              Role View:
+            </span>
             {(["STUDENT", "FACULTY", "HOD", "ADMIN"] as UserRole[]).map(
               (role) => (
                 <button
                   key={role}
                   onClick={() => setActiveRole(role)}
-                  className={`px-2.5 py-1 rounded-md font-medium transition ${
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition ${
                     activeRole === role
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      ? isDark
+                        ? "bg-white text-zinc-950 font-semibold shadow-xs"
+                        : "bg-zinc-950 text-white font-semibold shadow-xs"
+                      : `${mutedText} hover:text-current`
                   }`}
                 >
                   {role === "HOD" ? "HoD / Dean" : role}
@@ -347,62 +356,126 @@ export default function ToastUniversityOS() {
       </div>
 
       {/* =====================================================================
-          MAIN DAYLIGHT ACADEMIC COMMAND HEADER
+          2. VENGEANCE UI STICKY HEADER & INSET COMMAND+K BAR
       ===================================================================== */}
       <header
-        className={`sticky top-0 z-30 border-b ${surfaceClass} backdrop-blur-md bg-opacity-95 px-6 py-3`}
+        className={`sticky top-0 isolate z-40 border-b ${borderCol} ${
+          isDark ? "bg-[#050608]/90" : "bg-[#FAFAFA]/90"
+        } backdrop-blur-md`}
       >
-        <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-4">
+        <div
+          className={`mx-auto max-w-[1520px] md:px-6 xl:px-12 md:border-x ${borderCol} py-3.5 px-4 flex items-center justify-between gap-4`}
+        >
+          {/* Brand Logo (Vengeance UI Geometric Wing + Orbitron Title) */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-lg shadow-sm">
-              🍞
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight">TOAST</span>
-                <span className="text-xs px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
-                  {state.activeSemester}
-                </span>
+            <button
+              onClick={() => setActiveTab("DASHBOARD")}
+              className="flex items-center gap-2.5 text-left group"
+            >
+              <div
+                className={`w-9 h-9 rounded-xl border ${borderCol} ${
+                  isDark ? "bg-zinc-900" : "bg-white"
+                } flex items-center justify-center shadow-2xs`}
+              >
+                <svg
+                  viewBox="0 0 374 313"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 rotate-180 transition-transform duration-300 group-hover:scale-110"
+                >
+                  <path
+                    d="M247 181L237.5 236.5L373.5 313L247 181Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M187.5 0L154 209L173.5 195L237.5 83L187.5 0Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M373.5 313L253.761 110.5L197.5 195L237.5 181L212.5 222L0 313H187.5L237.5 236.5L247 181L373.5 313Z"
+                    fill="currentColor"
+                  />
+                </svg>
               </div>
-              <p className={`text-xs ${mutedText}`}>{state.campusName}</p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-orbitron text-lg font-bold tracking-tight">
+                    TOAST OS
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border border-zinc-300/80 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900">
+                    SEM 05 • CSE-5A
+                  </span>
+                </div>
+                <p className={`text-[11px] font-mono ${mutedText} hidden sm:block`}>
+                  {state.universityName}
+                </p>
+              </div>
+            </button>
+          </div>
+
+          {/* Vengeance UI Inset Search Button + Navigation Pills */}
+          <div className="hidden lg:flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className={`group flex h-9 w-[290px] items-center justify-between rounded-md border ${
+                isDark
+                  ? "border-white/10 bg-white/[0.035] hover:border-white/20 text-zinc-400"
+                  : "border-zinc-950/10 bg-zinc-950/[0.03] hover:border-zinc-950/20 text-zinc-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
+              } px-3 text-xs transition-colors`}
+            >
+              <span className="flex items-center gap-2 truncate">
+                <Search className="w-3.5 h-3.5 opacity-70" />
+                <span className="truncate">
+                  Search courses, PDFs, deadlines…
+                </span>
+              </span>
+              <kbd
+                className={`ml-2 rounded border ${borderCol} ${
+                  isDark ? "bg-white/[0.05]" : "bg-white"
+                } px-1.5 py-0.5 font-mono text-[10px] leading-none shadow-2xs`}
+              >
+                ⌘ K
+              </kbd>
+            </button>
+
+            <div className="flex items-center gap-1">
+              {(
+                [
+                  { id: "DASHBOARD", label: "Command" },
+                  { id: "COURSES", label: "Courses" },
+                  { id: "DEADLINES", label: "Deadlines" },
+                  { id: "COMPRESSOR", label: "Compressor <2MB" },
+                  { id: "VIVA_SLOTS", label: "Viva Slots" },
+                  { id: "LIVE_EXAM", label: "Live Exam" },
+                  { id: "GOVERNANCE", label: "Rules & OBE" },
+                  { id: "ALIEN_RUN", label: "Alien Run" },
+                ] as const
+              ).map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`h-8 px-3 rounded-full text-xs font-medium transition-colors ${
+                    activeTab === item.id
+                      ? isDark
+                        ? "bg-white text-zinc-950 font-semibold"
+                        : "bg-zinc-950 text-white font-semibold"
+                      : `${mutedText} hover:text-current`
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Global Command+K Search Trigger */}
-          <button
-            onClick={() => setSearchOpen(true)}
-            className={`hidden md:flex items-center justify-between w-96 px-3.5 py-2 rounded-xl border ${
-              isDark
-                ? "bg-slate-800 border-slate-700 text-slate-300"
-                : "bg-slate-50 border-slate-200 text-slate-500 hover:border-blue-400"
-            } text-sm transition`}
-          >
-            <span className="flex items-center gap-2">
-              <Search className="w-4 h-4 text-blue-600" />
-              <span>Search courses, PDFs, deadlines, viva…</span>
-            </span>
-            <kbd className="px-2 py-0.5 text-xs font-mono rounded bg-white border border-slate-200 text-slate-600 shadow-2xs">
-              Ctrl + K
-            </kbd>
-          </button>
-
-          {/* Right User Profile & Daylight/Dark Toggle */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setActiveTab("COMPRESSOR")}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold transition"
-            >
-              <FileArchive className="w-3.5 h-3.5" />
-              PDF/DOCX &lt;2MB Compressor
-            </button>
-
+          {/* Right User Badge & Theme Toggle */}
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsDark(!isDark)}
-              title="Toggle Daylight Light Mode / Dark Mode"
-              className={`p-2 rounded-lg border ${
-                isDark
-                  ? "border-slate-700 bg-slate-800 text-amber-300"
-                  : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
+              aria-label="Toggle Light/Dark Theme"
+              className={`w-8 h-8 rounded-full border ${borderCol} flex items-center justify-center transition hover:scale-105 ${
+                isDark ? "bg-zinc-900 text-amber-300" : "bg-white text-zinc-700"
               }`}
             >
               {isDark ? (
@@ -412,15 +485,23 @@ export default function ToastUniversityOS() {
               )}
             </button>
 
-            <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
-              <div className="w-9 h-9 rounded-full bg-blue-700 text-white font-semibold text-sm flex items-center justify-center">
+            <div
+              className={`flex items-center gap-2 pl-2.5 border-l ${borderCol}`}
+            >
+              <div
+                className={`w-8 h-8 rounded-full font-mono text-xs font-bold flex items-center justify-center ${
+                  isDark
+                    ? "bg-white text-zinc-950"
+                    : "bg-zinc-950 text-white"
+                }`}
+              >
                 {currentUser.avatarInitials}
               </div>
               <div className="hidden sm:block text-left">
-                <div className="text-sm font-semibold leading-none">
+                <div className="text-xs font-semibold leading-none">
                   {currentUser.name}
                 </div>
-                <div className="text-xs text-slate-500 font-mono mt-0.5">
+                <div className={`text-[10px] font-mono mt-0.5 ${mutedText}`}>
                   {currentUser.institutionalId} • {currentUser.role}
                 </div>
               </div>
@@ -430,550 +511,602 @@ export default function ToastUniversityOS() {
       </header>
 
       {/* =====================================================================
-          MAIN WORKSPACE SHELL (SIDEBAR + 3-COLUMN ADAPTIVE CONTENT)
+          3. VENGEANCE UI HERO & KPI ARCHITECTURAL SPLIT SECTION
       ===================================================================== */}
-      <div className="max-w-[1600px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
-        {/* LEFT NAVIGATION RAIL */}
-        <aside className="lg:col-span-2 space-y-2">
-          <div className={`rounded-2xl border p-3 ${surfaceClass} shadow-2xs space-y-1`}>
-            <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Academic OS
-            </div>
-            {(
-              [
-                {
-                  id: "DASHBOARD",
-                  label: "Command Center",
-                  icon: LayoutDashboard,
-                  badge: null,
-                },
-                {
-                  id: "COURSES",
-                  label: "Courses & Syllabus",
-                  icon: BookOpen,
-                  badge: String(state.courses.length),
-                },
-                {
-                  id: "DEADLINES",
-                  label: "Smart Deadlines",
-                  icon: Clock,
-                  badge: String(pendingDeadlines.length),
-                },
-                {
-                  id: "COMPRESSOR",
-                  label: "Doc Compressor",
-                  icon: FileArchive,
-                  badge: "<2MB",
-                },
-                {
-                  id: "VIVA_SLOTS",
-                  label: "Viva & Lab Slots",
-                  icon: Calendar,
-                  badge: null,
-                },
-                {
-                  id: "LIVE_EXAM",
-                  label: "Timed Exam Engine",
-                  icon: Lock,
-                  badge: "Redis",
-                },
-                {
-                  id: "GOVERNANCE",
-                  label: "Rules & OBE Matrix",
-                  icon: Workflow,
-                  badge: "Auto",
-                },
-                {
-                  id: "ALIEN_RUN",
-                  label: "Alien Run & XP",
-                  icon: Trophy,
-                  badge: `Lv.${studentUser.level}`,
-                },
-              ] as const
-            ).map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition ${
-                    isActive
-                      ? "bg-blue-50 text-blue-700 border border-blue-200/80 font-semibold"
-                      : isDark
-                      ? "text-slate-300 hover:bg-slate-800"
-                      : "text-slate-700 hover:bg-slate-100"
-                  }`}
-                >
-                  <span className="flex items-center gap-2.5">
-                    <Icon
-                      className={`w-4 h-4 ${
-                        isActive ? "text-blue-700" : "text-slate-500"
-                      }`}
-                    />
-                    <span className="truncate">{item.label}</span>
-                  </span>
-                  {item.badge && (
-                    <span
-                      className={`text-[11px] font-mono px-1.5 py-0.5 rounded-md ${
-                        isActive
-                          ? "bg-blue-700 text-white"
-                          : "bg-slate-100 text-slate-600"
+      <section className={`border-b ${borderCol}`}>
+        <div
+          className={`mx-auto max-w-[1520px] md:px-6 xl:px-12 md:border-x ${borderCol}`}
+        >
+          <div
+            className={`grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x ${divideCol}`}
+          >
+            {/* Left 7 Cols: Role Command Headline & Quick Actions */}
+            <div className="lg:col-span-7 p-6 md:p-8 flex flex-col justify-between gap-6">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 rounded-md border border-neutral-300/80 dark:border-zinc-800 bg-neutral-100/80 dark:bg-zinc-900 px-3 py-1 text-xs font-mono">
+                  <span className={mutedText}>Workspace</span>
+                  <span>▲ {activeRole} OPERATING MODE</span>
+                </div>
+
+                <h1 className="font-orbitron font-semibold tracking-tight text-2xl sm:text-3xl lg:text-4xl leading-tight">
+                  {activeRole === "STUDENT" && (
+                    <>
+                      Good morning, {currentUser.name.split(" ")[0]}.{" "}
+                      <span className="bg-gradient-to-r from-zinc-500 via-zinc-800 to-zinc-500 dark:from-zinc-400 dark:via-zinc-100 dark:to-zinc-500 bg-clip-text text-transparent">
+                        Academic Command.
+                      </span>
+                    </>
+                  )}
+                  {activeRole === "FACULTY" && (
+                    <>
+                      Faculty Studio —{" "}
+                      <span className="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-700 bg-clip-text text-transparent">
+                        {currentUser.name}
+                      </span>
+                    </>
+                  )}
+                  {activeRole === "HOD" && (
+                    <>
+                      CSE Department Governance —{" "}
+                      <span className="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+                        {currentUser.name}
+                      </span>
+                    </>
+                  )}
+                  {activeRole === "ADMIN" && (
+                    <>
+                      University Server Matrix —{" "}
+                      <span className="bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 bg-clip-text text-transparent">
+                        {currentUser.name}
+                      </span>
+                    </>
+                  )}
+                </h1>
+
+                <p className={`font-mono text-xs sm:text-sm ${mutedText} max-w-2xl`}>
+                  {activeRole === "STUDENT" &&
+                    "Live attendance check-in (<2ms Redis HMAC), Smart Deadline Priority Queue, <2.0 MB Server PDF/DOCX Compressor, and Course-Scoped AI RAG."}
+                  {activeRole === "FACULTY" &&
+                    "Project rotating classroom QR/PIN tokens, publish assignments, speed-grade student PDFs with rubrics, and manage viva evaluation slots."}
+                  {activeRole === "HOD" &&
+                    "Real-time CSE attendance compliance, automated Dynamic Rule #1 at-risk interventions, and NBA/NAAC CO-PO attainment tracking."}
+                  {activeRole === "ADMIN" &&
+                    "High-concurrency PgBouncer connection multiplexing, Redis exam answer buffers, MinIO object storage, and institutional workflow rules."}
+                </p>
+              </div>
+
+              {/* Vengeance UI Tactile Pop Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
+                {activeRole === "STUDENT" && (
+                  <>
+                    <button
+                      onClick={() => handleAttendanceCheckIn("QR_AUTO")}
+                      disabled={
+                        isStudentCheckedIn || !state.liveAttendance.active
+                      }
+                      className={`h-10 px-5 rounded-md font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition active:scale-[0.98] ${
+                        isStudentCheckedIn
+                          ? "bg-emerald-600 text-white"
+                          : isDark
+                          ? "bg-white text-zinc-950 hover:bg-zinc-200"
+                          : "bg-zinc-950 text-white hover:bg-zinc-800"
                       }`}
                     >
-                      {item.badge}
-                    </span>
-                  )}
-                </button>
+                      <QrCode className="w-4 h-4" />
+                      {isStudentCheckedIn
+                        ? "Checked In: CS-301 (LH-204)"
+                        : `1-Click Check-In • CS-301 (PIN ${state.liveAttendance.pinCode})`}
+                    </button>
+
+                    <button
+                      onClick={() => setActiveTab("COMPRESSOR")}
+                      className="vng-pop-btn h-10 px-5 rounded-md bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100 font-semibold text-xs sm:text-sm inline-flex items-center gap-2"
+                    >
+                      <FileArchive className="w-4 h-4 text-rose-500" />
+                      Compress PDF/DOCX &lt; 2MB
+                    </button>
+                  </>
+                )}
+
+                {activeRole === "FACULTY" && (
+                  <>
+                    <button
+                      onClick={() => mutateUniversity("ROTATE_ATTENDANCE_PIN")}
+                      className="h-10 px-5 rounded-md bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 font-medium text-xs sm:text-sm inline-flex items-center gap-2 active:scale-[0.98]"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                      Rotate Live PIN ({state.liveAttendance.pinCode})
+                    </button>
+                    <button
+                      onClick={() =>
+                        mutateUniversity("TOGGLE_ATTENDANCE_SESSION")
+                      }
+                      className="vng-pop-btn h-10 px-5 rounded-md bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100 font-semibold text-xs sm:text-sm"
+                    >
+                      {state.liveAttendance.active
+                        ? "Close Attendance Session"
+                        : "Start Attendance Session"}
+                    </button>
+                  </>
+                )}
+
+                {(activeRole === "HOD" || activeRole === "ADMIN") && (
+                  <button
+                    onClick={() => setActiveTab("GOVERNANCE")}
+                    className="h-10 px-5 rounded-md bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 font-medium text-xs sm:text-sm inline-flex items-center gap-2"
+                  >
+                    <Workflow className="w-4 h-4" />
+                    Configure Dynamic Automation Rules
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Right 5 Cols: Vengeance UI 2x2 Architectural Telemetry Grid */}
+            <div className={`lg:col-span-5 grid grid-cols-2 divide-x divide-y ${divideCol}`}>
+              <div className="p-5 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    01 / Attendance
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                    +{overallSafeBunkBuffer} Safe Buffer
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <p className="font-orbitron text-2xl sm:text-3xl font-semibold tabular-nums">
+                    {overallAttendancePct}%
+                  </p>
+                  <p className={`mt-1 text-xs font-mono ${mutedText}`}>
+                    {totalAttended}/{totalConducted} Classes • Min 75.0%
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    02 / Deadlines
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400">
+                    28h Next Due
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <p className="font-orbitron text-2xl sm:text-3xl font-semibold tabular-nums">
+                    0{pendingDeadlines.length}
+                  </p>
+                  <p className={`mt-1 text-xs font-mono ${mutedText}`}>
+                    CS-301 LALR(1) Report
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    03 / Transcript
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-400">
+                    96/160 Cr
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <p className="font-orbitron text-2xl sm:text-3xl font-semibold tabular-nums">
+                    {studentUser.cgpa?.toFixed(2)}
+                  </p>
+                  <p className={`mt-1 text-xs font-mono ${mutedText}`}>
+                    CGPA • Sem 5 SGPA 9.18
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    04 / Alien Run
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-violet-500/10 text-violet-700 dark:text-violet-400">
+                    🔥 {studentUser.streakDays}d Streak
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <p className="font-orbitron text-2xl sm:text-3xl font-semibold tabular-nums">
+                    {studentUser.xp.toLocaleString()}
+                  </p>
+                  <p className={`mt-1 text-xs font-mono ${mutedText}`}>
+                    Academic XP • Level 0{studentUser.level}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================================
+          4. VENGEANCE UI ISOMETRIC 3D COURSE STACK STRIP (iso-stack)
+      ===================================================================== */}
+      <section className={`border-b ${borderCol}`}>
+        <div
+          className={`mx-auto max-w-[1520px] md:px-6 xl:px-12 md:border-x ${borderCol}`}
+        >
+          <div className={`flex items-center justify-between px-6 py-3 border-b ${borderCol}`}>
+            <span className="font-orbitron text-xs font-semibold uppercase tracking-wider">
+              Enrolled Semester 05 Courses — Interactive 3D Folders
+            </span>
+            <span className={`font-mono text-[11px] ${mutedText}`}>
+              Click any 3D folder to inspect syllabus modules &amp; OBE outcomes
+            </span>
+          </div>
+
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x ${divideCol}`}
+          >
+            {state.courses.map((course) => {
+              const attPct = (
+                (course.attendedClasses / course.totalClasses) *
+                100
+              ).toFixed(1);
+              const safeMargin = Math.max(
+                0,
+                Math.floor(course.attendedClasses / 0.75 - course.totalClasses)
+              );
+              const isSelected = selectedCourse.id === course.id;
+              return (
+                <div
+                  key={course.id}
+                  onClick={() => {
+                    setSelectedCourseId(course.id);
+                    setActiveTab("COURSES");
+                  }}
+                  className={`p-5 flex items-center gap-4 cursor-pointer transition-colors duration-200 ${
+                    isSelected
+                      ? isDark
+                        ? "bg-white/[0.04]"
+                        : "bg-zinc-100/80"
+                      : "hover:bg-zinc-100/50 dark:hover:bg-white/[0.02]"
+                  }`}
+                >
+                  {/* Authentic Vengeance UI Isometric 3D Folder SVG */}
+                  <svg
+                    viewBox="0 0 40 35"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="iso-stack w-16 h-14 shrink-0"
+                  >
+                    <g className="iso-stack-back">
+                      <path
+                        d="M38.6162 5.29118C38.8616 5.80954 39 6.38856 39 7.00016V30.0002C39 32.2093 37.2091 34.0001 35 34.0001H7C6.21257 34.0001 5.47933 33.771 4.86035 33.3781C2.68828 31.9994 1.5 29 1.5 29L3 29.8595V7.00016C3 4.79102 4.79086 3.00016 7 3.00016H34.6631L34.5 1.5C34.5 1.5 37.7407 3.44195 38.6162 5.29118Z"
+                        className="fill-neutral-200 dark:fill-zinc-800 stroke-neutral-400 dark:stroke-zinc-600"
+                      />
+                      <path
+                        d="M35.7144 25.5003L38.9286 28M35.7144 23.2188L39 26"
+                        className="stroke-neutral-400 dark:stroke-zinc-600"
+                      />
+                    </g>
+                    <g className="iso-stack-front">
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="35"
+                        height="30"
+                        rx="3.5"
+                        className="fill-white dark:fill-zinc-950 stroke-neutral-400 dark:stroke-zinc-600"
+                      />
+                      <text
+                        x="18"
+                        y="19"
+                        textAnchor="middle"
+                        className="fill-zinc-950 dark:fill-white font-mono text-[8px] font-bold"
+                      >
+                        {course.code}
+                      </text>
+                    </g>
+                  </svg>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-orbitron text-xs font-bold">
+                        {course.code}
+                      </span>
+                      <span className="font-mono text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                        {attPct}% (+{safeMargin})
+                      </span>
+                    </div>
+                    <p className="text-sm font-semibold truncate mt-0.5">
+                      {course.title}
+                    </p>
+                    <p className={`text-[11px] font-mono truncate mt-0.5 ${mutedText}`}>
+                      {course.nextClassTime} • {course.room.split(" ")[0]}
+                    </p>
+                  </div>
+                </div>
               );
             })}
           </div>
+        </div>
+      </section>
 
-          {/* University Multi-User Info Card */}
-          <div className={`rounded-2xl border p-4 ${surfaceClass} shadow-2xs space-y-2`}>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700">
-              <Server className="w-3.5 h-3.5" />
-              Multi-User Sync
-            </div>
-            <p className={`text-xs leading-relaxed ${mutedText}`}>
-              Open <code className="font-mono text-blue-700">localhost:3000</code>{" "}
-              in two browser tabs simultaneously: switch one to{" "}
-              <strong>FACULTY</strong> and one to <strong>STUDENT</strong> to test
-              real-time QR attendance, assignment grading, and viva booking!
-            </p>
-          </div>
-        </aside>
+      {/* =====================================================================
+          5. MAIN TAB WORKSPACE (VENGEANCE UI MOTION ISLANDS & BENTO GRIDS)
+      ===================================================================== */}
+      <main className={`border-b ${borderCol} flex-1`}>
+        <div
+          className={`mx-auto max-w-[1520px] md:px-6 xl:px-12 md:border-x ${borderCol}`}
+        >
+          {/* ROLE-SPECIFIC FACULTY / HOD STUDIO STRIP WHEN SELECTED */}
+          {activeRole === "FACULTY" && (
+            <div className={`p-6 border-b ${borderCol} space-y-5`}>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    FACULTY TEACHING &amp; EVALUATION KERNEL
+                  </p>
+                  <h2 className="font-orbitron text-lg font-semibold mt-0.5">
+                    Live Classroom Projector &amp; Rubric Speed-Grader
+                  </h2>
+                </div>
+                <div className="flex items-center gap-3 font-mono text-xs">
+                  <span className="px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                    Projector PIN:{" "}
+                    <strong className="text-blue-600 text-sm">
+                      {state.liveAttendance.pinCode}
+                    </strong>
+                  </span>
+                  <span className="px-3 py-1.5 rounded-lg border border-emerald-300/60 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                    Present:{" "}
+                    <strong>
+                      {38 + state.liveAttendance.checkedInStudentIds.length}/
+                      {state.liveAttendance.totalEnrolled}
+                    </strong>
+                  </span>
+                </div>
+              </div>
 
-        {/* CENTER + RIGHT WORKSPACE */}
-        <main className="lg:col-span-10 space-y-6">
-          {/* =================================================================
-              ROLE BANNER (ADAPTS TO STUDENT / FACULTY / HOD / ADMIN)
-          ================================================================= */}
-          <div
-            className={`rounded-2xl border p-6 ${surfaceClass} shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4`}
-          >
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
-                  {activeRole} WORKSPACE
-                </span>
-                <span className={`text-xs font-mono ${mutedText}`}>
-                  ID: {currentUser.institutionalId} • {currentUser.department}
-                </span>
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                {activeRole === "STUDENT" &&
-                  `Good morning, ${currentUser.name.split(" ")[0]} 👋`}
-                {activeRole === "FACULTY" &&
-                  `Faculty Command Center — ${currentUser.name}`}
-                {activeRole === "HOD" &&
-                  `Department Governance & OBE Console — ${currentUser.name}`}
-                {activeRole === "ADMIN" &&
-                  `University Server & Multi-Tenant Operations — ${currentUser.name}`}
-              </h1>
-              <p className={`text-sm ${mutedText}`}>
-                {activeRole === "STUDENT" &&
-                  "Everything you have today: live lecture check-in, prioritized deadlines, <2MB document compressor, and course-grounded AI."}
-                {activeRole === "FACULTY" &&
-                  "Project live rotating attendance QR/PINs, publish assignments, speed-grade submissions with rubrics, and manage viva slots."}
-                {activeRole === "HOD" &&
-                  "Monitor CSE department attendance health, early-warning at-risk student interventions, and NBA/NAAC CO-PO attainment matrices."}
-                {activeRole === "ADMIN" &&
-                  "Monitor 5,000–25,000+ user PgBouncer pools, Redis exam buffers, MinIO object storage, and institutional Dynamic Rules."}
-              </p>
-            </div>
-
-            {/* Quick Role Action Buttons */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              {activeRole === "STUDENT" && (
-                <>
-                  <button
-                    onClick={() => handleAttendanceCheckIn("QR_AUTO")}
-                    disabled={isStudentCheckedIn || !state.liveAttendance.active}
-                    className={`px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-xs transition ${
-                      isStudentCheckedIn
-                        ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        : "bg-blue-700 hover:bg-blue-800 text-white"
-                    }`}
-                  >
-                    <QrCode className="w-4 h-4" />
-                    {isStudentCheckedIn
-                      ? "Checked In: CS-301 (LH-204)"
-                      : "1-Click Live Check-In (CS-301)"}
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("COMPRESSOR")}
-                    className="px-4 py-2.5 rounded-xl text-sm font-semibold border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 flex items-center gap-2 transition"
-                  >
-                    <Upload className="w-4 h-4 text-blue-700" />
-                    Compress &amp; Submit PDF
-                  </button>
-                </>
-              )}
-              {activeRole === "FACULTY" && (
-                <>
-                  <button
-                    onClick={() => mutateUniversity("ROTATE_ATTENDANCE_PIN")}
-                    className="px-4 py-2.5 rounded-xl text-sm font-semibold bg-blue-700 hover:bg-blue-800 text-white flex items-center gap-2 transition"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                    Rotate Classroom PIN ({state.liveAttendance.pinCode})
-                  </button>
-                  <button
-                    onClick={() => mutateUniversity("TOGGLE_ATTENDANCE_SESSION")}
-                    className="px-4 py-2.5 rounded-xl text-sm font-semibold border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 transition"
-                  >
-                    {state.liveAttendance.active
-                      ? "Close Attendance Session"
-                      : "Start Attendance Session"}
-                  </button>
-                </>
-              )}
-              {(activeRole === "HOD" || activeRole === "ADMIN") && (
-                <button
-                  onClick={() => setActiveTab("GOVERNANCE")}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold bg-blue-700 hover:bg-blue-800 text-white flex items-center gap-2 transition"
-                >
-                  <Workflow className="w-4 h-4" />
-                  Manage Dynamic Automation Rules
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* =================================================================
-              KPI STRIP (LIGHT-THEMED HIGH-CONTRAST ACADEMIC METRICS)
-          ================================================================= */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs`}>
-              <div className="flex items-center justify-between">
-                <span className={`text-xs font-semibold uppercase ${mutedText}`}>
-                  Overall Attendance
-                </span>
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Safe (&ge;75%)
-                </span>
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-bold font-mono tabular-nums">
-                  {overallAttendancePct}%
-                </span>
-                <span className="text-xs text-slate-500 font-mono">
-                  ({totalAttended}/{totalConducted} classes)
-                </span>
-              </div>
-              <p className="mt-2 text-xs text-emerald-700 font-medium">
-                +{overallSafeBunkBuffer} classes buffer above 75% debarment line
-              </p>
-            </div>
-
-            <div className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs`}>
-              <div className="flex items-center justify-between">
-                <span className={`text-xs font-semibold uppercase ${mutedText}`}>
-                  Smart Deadlines
-                </span>
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                  1 Due Tomorrow
-                </span>
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-bold font-mono tabular-nums">
-                  {pendingDeadlines.length}
-                </span>
-                <span className="text-xs text-slate-500">Pending Tasks</span>
-              </div>
-              <p className={`mt-2 text-xs ${mutedText}`}>
-                Next: CS-301 LALR(1) Parser Report (28h left)
-              </p>
-            </div>
-
-            <div className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs`}>
-              <div className="flex items-center justify-between">
-                <span className={`text-xs font-semibold uppercase ${mutedText}`}>
-                  Cumulative CGPA
-                </span>
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                  160 Cr B.Tech
-                </span>
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-bold font-mono tabular-nums">
-                  {studentUser.cgpa?.toFixed(2)}
-                </span>
-                <span className="text-xs text-slate-500">
-                  / 10.0 (Sem 5 SGPA: 9.18)
-                </span>
-              </div>
-              <p className={`mt-2 text-xs ${mutedText}`}>
-                96 / 160 Degree Credits Completed (Dean&apos;s List)
-              </p>
-            </div>
-
-            <div className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs`}>
-              <div className="flex items-center justify-between">
-                <span className={`text-xs font-semibold uppercase ${mutedText}`}>
-                  Academic XP &amp; Streak
-                </span>
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-purple-50 text-purple-700 border border-purple-200">
-                  Level {studentUser.level}
-                </span>
-              </div>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-bold font-mono tabular-nums text-purple-700">
-                  {studentUser.xp.toLocaleString()} XP
-                </span>
-                <span className="text-xs font-semibold text-amber-600 flex items-center gap-0.5">
-                  <Flame className="w-3.5 h-3.5 fill-amber-500" />
-                  {studentUser.streakDays}d streak
-                </span>
-              </div>
-              <p className={`mt-2 text-xs ${mutedText}`}>
-                Alien Run Sector 4 Unlocked • Top 5% in CSE-5A
-              </p>
-            </div>
-          </div>
-
-          {/* =================================================================
-              TAB 1: COMMAND DASHBOARD (ADAPTS TO ROLE)
-          ================================================================= */}
-          {activeTab === "DASHBOARD" && (
-            <div className="space-y-6">
-              {/* FACULTY / HOD / ADMIN SPECIALIZED TOP PANELS WHEN SELECTED */}
-              {activeRole === "FACULTY" && (
-                <div
-                  className={`rounded-2xl border-2 border-blue-200 p-6 ${surfaceClass} shadow-xs space-y-5`}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
-                    <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
-                        FACULTY LIVE CLASSROOM &amp; SPEED-GRADER STUDIO
-                      </span>
-                      <h2 className="text-xl font-bold mt-0.5">
-                        CS-301 Compiler Design • Section CSE-5A (Room LH-204)
-                      </h2>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-right">
-                        <div className="text-[11px] uppercase font-semibold text-slate-500">
-                          Live Rotating PIN
-                        </div>
-                        <div className="text-xl font-mono font-bold tracking-widest text-blue-700">
-                          {state.liveAttendance.pinCode}
-                        </div>
-                      </div>
-                      <div className="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-right">
-                        <div className="text-[11px] uppercase font-semibold text-emerald-700">
-                          Checked-In Live
-                        </div>
-                        <div className="text-xl font-mono font-bold text-emerald-800">
-                          {38 + state.liveAttendance.checkedInStudentIds.length} /{" "}
-                          {state.liveAttendance.totalEnrolled}
-                        </div>
-                      </div>
-                    </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Publish New Assignment */}
+                <div className={`p-4 rounded-2xl border ${cardSurface} space-y-3`}>
+                  <div className="font-orbitron text-xs font-semibold">
+                    01 / Publish Assignment to Student Queue
                   </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <select
+                      value={newAssignCourse}
+                      onChange={(e) => setNewAssignCourse(e.target.value)}
+                      className={`px-3 py-2 rounded-lg border ${borderCol} bg-transparent text-xs font-mono`}
+                    >
+                      {state.courses.map((c) => (
+                        <option key={c.id} value={c.code} className="text-black">
+                          {c.code}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      value={newAssignTitle}
+                      onChange={(e) => setNewAssignTitle(e.target.value)}
+                      placeholder="e.g., Assignment 4: SSA & Register Allocation"
+                      className={`sm:col-span-2 px-3 py-2 rounded-lg border ${borderCol} bg-transparent text-xs`}
+                    />
+                  </div>
+                  <button
+                    onClick={async () => {
+                      if (!newAssignTitle.trim()) return;
+                      await mutateUniversity("CREATE_ASSIGNMENT", {
+                        courseCode: newAssignCourse,
+                        title: newAssignTitle,
+                        dueAt: "Next Monday, 11:59 PM",
+                        maxMarks: 25,
+                        coTag: "CO3",
+                      });
+                      setNewAssignTitle("");
+                    }}
+                    className="vng-pop-btn px-4 py-2 rounded-lg bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 text-xs font-semibold"
+                  >
+                    + Publish to Section CSE-5A
+                  </button>
+                </div>
 
-                  {/* Faculty Create Assignment + Speed Grader */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                      <h3 className="text-sm font-bold text-slate-900">
-                        Publish New Course Assignment (Instant Student Sync)
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <select
-                          value={newAssignCourse}
-                          onChange={(e) => setNewAssignCourse(e.target.value)}
-                          className="px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-900"
+                {/* Speed Grader */}
+                <div className={`p-4 rounded-2xl border ${cardSurface} space-y-3`}>
+                  <div className="font-orbitron text-xs font-semibold">
+                    02 / Speed-Grader Submissions Queue
+                  </div>
+                  <div className="space-y-2">
+                    {state.deadlines
+                      .filter((d) => d.status !== "PENDING")
+                      .map((dl) => (
+                        <div
+                          key={dl.id}
+                          className={`p-3 rounded-xl border ${borderCol} flex flex-wrap items-center justify-between gap-2`}
                         >
-                          {state.courses.map((c) => (
-                            <option key={c.id} value={c.code}>
-                              {c.code}
-                            </option>
-                          ))}
-                        </select>
-                        <input
-                          type="text"
-                          value={newAssignTitle}
-                          onChange={(e) => setNewAssignTitle(e.target.value)}
-                          placeholder="e.g., Assignment 4: SSA Code Optimization"
-                          className="sm:col-span-2 px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-900"
-                        />
-                      </div>
-                      <button
-                        onClick={async () => {
-                          if (!newAssignTitle.trim()) return;
-                          await mutateUniversity("CREATE_ASSIGNMENT", {
-                            courseCode: newAssignCourse,
-                            title: newAssignTitle,
-                            dueAt: "Next Monday, 11:59 PM",
-                            maxMarks: 25,
-                            coTag: "CO3",
-                          });
-                          setNewAssignTitle("");
-                        }}
-                        className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold transition"
-                      >
-                        + Publish Assignment &amp; Trigger Deadline Engine
-                      </button>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                      <h3 className="text-sm font-bold text-slate-900">
-                        Rubric Speed-Grader Queue (Submitted Work)
-                      </h3>
-                      {state.deadlines
-                        .filter((d) => d.status !== "PENDING")
-                        .map((dl) => (
-                          <div
-                            key={dl.id}
-                            className="p-3 rounded-lg bg-white border border-slate-200 flex flex-wrap items-center justify-between gap-2"
-                          >
-                            <div>
-                              <div className="text-xs font-bold text-slate-900">
-                                {dl.courseCode} • {dl.title}
-                              </div>
-                              <div className="text-[11px] text-slate-500 font-mono">
-                                File: {dl.submittedFileName || "Submitted.pdf"} (
-                                {dl.submittedSizeMb || 1.4} MB) • Status:{" "}
-                                <span className="font-semibold text-emerald-700">
-                                  {dl.status}
-                                  {dl.marksAwarded !== undefined
-                                    ? ` (${dl.marksAwarded}/${dl.maxMarks})`
-                                    : ""}
-                                </span>
-                              </div>
+                          <div>
+                            <div className="text-xs font-semibold">
+                              {dl.courseCode} • {dl.title}
                             </div>
-                            <div className="flex items-center gap-2">
-                              <input
-                                type="number"
-                                placeholder={`/${dl.maxMarks}`}
-                                value={gradeMarksInput[dl.id] ?? ""}
-                                onChange={(e) =>
-                                  setGradeMarksInput({
-                                    ...gradeMarksInput,
-                                    [dl.id]: e.target.value,
-                                  })
-                                }
-                                className="w-16 px-2 py-1 text-xs font-mono border border-slate-300 rounded bg-white text-slate-900"
-                              />
-                              <button
-                                onClick={() =>
-                                  mutateUniversity("GRADE_SUBMISSION", {
-                                    deadlineId: dl.id,
-                                    marksAwarded:
-                                      gradeMarksInput[dl.id] || dl.maxMarks,
-                                  })
-                                }
-                                className="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold"
-                              >
-                                Publish Grade
-                              </button>
+                            <div className={`text-[11px] font-mono ${mutedText}`}>
+                              {dl.submittedFileName} ({dl.submittedSizeMb} MB) •{" "}
+                              <strong className="text-emerald-600">
+                                {dl.status}
+                                {dl.marksAwarded !== undefined
+                                  ? ` (${dl.marksAwarded}/${dl.maxMarks})`
+                                  : ""}
+                              </strong>
                             </div>
                           </div>
-                        ))}
-                    </div>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="number"
+                              placeholder={`/${dl.maxMarks}`}
+                              value={gradeMarksInput[dl.id] ?? ""}
+                              onChange={(e) =>
+                                setGradeMarksInput({
+                                  ...gradeMarksInput,
+                                  [dl.id]: e.target.value,
+                                })
+                              }
+                              className={`w-16 px-2 py-1 text-xs font-mono border ${borderCol} rounded bg-transparent`}
+                            />
+                            <button
+                              onClick={() =>
+                                mutateUniversity("GRADE_SUBMISSION", {
+                                  deadlineId: dl.id,
+                                  marksAwarded:
+                                    gradeMarksInput[dl.id] || dl.maxMarks,
+                                })
+                              }
+                              className="px-2.5 py-1 rounded bg-emerald-600 text-white text-xs font-semibold"
+                            >
+                              Grade
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
-              )}
+              </div>
+            </div>
+          )}
 
-              {(activeRole === "HOD" || activeRole === "ADMIN") && (
-                <div
-                  className={`rounded-2xl border-2 border-amber-200 p-6 ${surfaceClass} shadow-xs space-y-4`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
-                        PREDICTIVE AT-RISK STUDENT ENGINE (DYNAMIC RULE #1)
+          {(activeRole === "HOD" || activeRole === "ADMIN") && (
+            <div className={`p-6 border-b ${borderCol} space-y-4`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    DYNAMIC RULE #1 • EARLY-WARNING INTERVENTION ENGINE
+                  </p>
+                  <h2 className="font-orbitron text-lg font-semibold mt-0.5">
+                    At-Risk Students Flagged (&lt; 75% Attendance or Missed Deadlines)
+                  </h2>
+                </div>
+                <span className="font-mono text-xs px-3 py-1 rounded-full bg-rose-500/10 text-rose-600 border border-rose-500/20 font-semibold">
+                  {state.atRiskStudents.length} Active Flags
+                </span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {state.atRiskStudents.map((st) => (
+                  <div
+                    key={st.id}
+                    className={`p-4 rounded-2xl border ${cardSurface} space-y-2`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold">
+                        {st.institutionalId} • {st.name}
                       </span>
-                      <h2 className="text-lg font-bold mt-0.5">
-                        Students Flagged Below 75% Attendance or Missing Consecutive
-                        Deadlines
-                      </h2>
+                      <span className="font-mono text-xs font-bold text-rose-600">
+                        {st.attendancePct}% Att
+                      </span>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
-                      {state.atRiskStudents.length} Students Flagged
+                    <p className={`text-xs ${mutedText}`}>{st.flaggedReason}</p>
+                    <div className="text-[11px] font-mono pt-1 border-t border-neutral-200/60 dark:border-zinc-800">
+                      Advisor Notified: {st.advisorName}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* =================================================================
+              TAB 1: COMMAND DASHBOARD — VENGEANCE UI 3-COLUMN MOTION ISLAND BENTO
+          ================================================================= */}
+          {activeTab === "DASHBOARD" && (
+            <div className="relative">
+              {/* Animated SVG Flow Network (Signature Vengeance UI Circuit Lines) */}
+              <svg
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-10 hidden h-full w-full overflow-visible text-sky-500/25 dark:text-cyan-400/20 xl:block"
+                preserveAspectRatio="none"
+                viewBox="0 0 300 200"
+              >
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="0.45"
+                  vectorEffect="non-scaling-stroke"
+                >
+                  <path d="M6 50 H82 C96 50 96 100 114 100 H150 C174 100 174 50 208 50 H294" />
+                </g>
+                <g fill="currentColor">
+                  <circle r="1.4">
+                    <animateMotion
+                      begin="0s"
+                      dur="7s"
+                      path="M6 50 H82 C96 50 96 100 114 100 H150 C174 100 174 50 208 50 H294"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle r="1.4">
+                    <animateMotion
+                      begin="-3.5s"
+                      dur="7s"
+                      path="M6 50 H82 C96 50 96 100 114 100 H150 C174 100 174 50 208 50 H294"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              </svg>
+
+              <div
+                className={`grid grid-cols-1 xl:grid-cols-3 divide-y xl:divide-y-0 xl:divide-x ${divideCol}`}
+              >
+                {/* -----------------------------------------------------------
+                    ISLAND 01/03: LIVE ATTENDANCE & TIMETABLE MOTION ISLAND
+                ----------------------------------------------------------- */}
+                <div className="p-5 flex flex-col justify-between space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className={`flex w-7 h-7 items-center justify-center rounded-md border ${borderCol}`}
+                      >
+                        <QrCode className="w-3.5 h-3.5" />
+                      </span>
+                      <div>
+                        <p className="font-orbitron text-sm font-medium">
+                          Attendance &amp; Timetable
+                        </p>
+                        <p className={`text-[11px] ${mutedText}`}>
+                          Rotating HMAC PIN + Live Schedule
+                        </p>
+                      </div>
+                    </div>
+                    <span className={`font-mono text-[10px] ${mutedText}`}>
+                      01/03
                     </span>
                   </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm border-collapse">
-                      <thead>
-                        <tr className="border-b border-slate-200 text-xs uppercase text-slate-500 bg-slate-50">
-                          <th className="py-2.5 px-3">Roll No / Name</th>
-                          <th className="py-2.5 px-3">Section</th>
-                          <th className="py-2.5 px-3">Attendance</th>
-                          <th className="py-2.5 px-3">Missed Work</th>
-                          <th className="py-2.5 px-3">Advisor</th>
-                          <th className="py-2.5 px-3">Automated Trigger Reason</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200">
-                        {state.atRiskStudents.map((st) => (
-                          <tr key={st.id}>
-                            <td className="py-2.5 px-3 font-medium">
-                              <span className="font-mono text-xs text-slate-500 mr-1.5">
-                                {st.institutionalId}
-                              </span>
-                              {st.name}
-                            </td>
-                            <td className="py-2.5 px-3 font-mono text-xs">
-                              {st.section}
-                            </td>
-                            <td className="py-2.5 px-3 font-mono font-bold text-red-600">
-                              {st.attendancePct}%
-                            </td>
-                            <td className="py-2.5 px-3 font-mono">
-                              {st.missedDeadlines} overdue
-                            </td>
-                            <td className="py-2.5 px-3 text-xs text-slate-600">
-                              {st.advisorName}
-                            </td>
-                            <td className="py-2.5 px-3 text-xs text-amber-900">
-                              {st.flaggedReason}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
 
-              {/* MAIN 2-COLUMN STUDENT / ACADEMIC COMMAND GRID */}
-              <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                {/* LEFT 7 COLS: TODAY'S SCHEDULE + LIVE ATTENDANCE + COURSES */}
-                <div className="xl:col-span-7 space-y-6">
-                  {/* Live Classroom Attendance Banner */}
+                  {/* Vengeance UI Rounded Motion Island */}
                   <div
-                    className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs space-y-4`}
+                    className={`relative rounded-[2.2rem] border p-4 overflow-hidden ${motionIslandClass} space-y-3`}
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                        <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-                          Live Classroom Session Active Now
+                    <div
+                      className="pointer-events-none absolute inset-0 rounded-[2.2rem] bg-[radial-gradient(circle_at_85%_0%,rgba(56,189,248,0.22),transparent_38%),radial-gradient(circle_at_0%_80%,rgba(16,185,129,0.18),transparent_38%)]"
+                    />
+
+                    {/* Floating Glass Live Session Card */}
+                    <div
+                      className={`relative z-10 rounded-[1.35rem] border p-4 ${glassCardClass} space-y-3`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                          LIVE SESSION • {state.liveAttendance.room}
+                        </span>
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-zinc-950 text-white dark:bg-white dark:text-zinc-950">
+                          PIN: {state.liveAttendance.pinCode}
                         </span>
                       </div>
-                      <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-slate-100 text-slate-700">
-                        Token: {state.liveAttendance.hmacToken}
-                      </span>
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-blue-50/70 border border-blue-200/80">
                       <div>
-                        <div className="text-xs font-bold text-blue-700">
-                          {state.liveAttendance.courseCode} •{" "}
-                          {state.liveAttendance.section} • Room{" "}
-                          {state.liveAttendance.room}
-                        </div>
-                        <h3 className="text-base font-bold text-slate-900 mt-0.5">
+                        <h3 className="font-semibold text-sm">
+                          {state.liveAttendance.courseCode} —{" "}
                           {state.liveAttendance.courseTitle}
                         </h3>
-                        <p className="text-xs text-slate-600 mt-0.5">
-                          Instructor: {state.liveAttendance.instructorName} •
-                          Classroom Projector PIN:{" "}
-                          <strong className="font-mono text-blue-800">
-                            {state.liveAttendance.pinCode}
-                          </strong>
+                        <p className={`text-[11px] font-mono mt-0.5 ${mutedText}`}>
+                          {state.liveAttendance.instructorName} •{" "}
+                          {state.liveAttendance.hmacToken}
                         </p>
                       </div>
 
@@ -981,280 +1114,306 @@ export default function ToastUniversityOS() {
                         <input
                           type="text"
                           value={attendancePinInput}
-                          onChange={(e) => setAttendancePinInput(e.target.value)}
+                          onChange={(e) =>
+                            setAttendancePinInput(e.target.value)
+                          }
                           placeholder={state.liveAttendance.pinCode}
-                          className="w-28 px-3 py-2 rounded-lg border border-slate-300 bg-white font-mono text-sm text-center text-slate-900"
+                          className={`w-24 px-2.5 py-1.5 rounded-lg border ${borderCol} bg-transparent font-mono text-xs text-center`}
                         />
                         <button
                           onClick={() => handleAttendanceCheckIn("PIN")}
                           disabled={isStudentCheckedIn}
-                          className={`px-4 py-2 rounded-lg text-xs font-semibold transition ${
+                          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-mono font-semibold transition ${
                             isStudentCheckedIn
                               ? "bg-emerald-600 text-white"
-                              : "bg-blue-700 hover:bg-blue-800 text-white"
+                              : "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 hover:opacity-90"
                           }`}
                         >
-                          {isStudentCheckedIn ? "✓ Marked Present" : "Verify PIN"}
+                          {isStudentCheckedIn
+                            ? "✓ PRESENT LOGGED"
+                            : "VERIFY PIN"}
                         </button>
                       </div>
-                    </div>
 
-                    {attendanceFeedback && (
-                      <div className="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
-                        {attendanceFeedback}
-                      </div>
-                    )}
-
-                    {/* Today's Full Timetable */}
-                    <div className="space-y-2 pt-1">
-                      <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-400">
-                        <span>Today&apos;s University Timetable</span>
-                        <span>Section CSE-5A</span>
-                      </div>
-                      <div className="divide-y divide-slate-200 border border-slate-200 rounded-xl overflow-hidden bg-white">
-                        {state.courses.map((course) => {
-                          const attPct = (
-                            (course.attendedClasses / course.totalClasses) *
-                            100
-                          ).toFixed(1);
-                          return (
-                            <div
-                              key={course.id}
-                              className="p-3.5 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50 transition"
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-800 font-mono text-xs font-bold">
-                                  {course.code}
-                                </div>
-                                <div>
-                                  <div className="text-sm font-semibold text-slate-900">
-                                    {course.title}
-                                  </div>
-                                  <div className="text-xs text-slate-500">
-                                    {course.nextClassTime} • {course.room} •{" "}
-                                    {course.instructor}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <span className="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                  {attPct}% ({course.attendedClasses}/
-                                  {course.totalClasses})
-                                </span>
-                                <button
-                                  onClick={() => {
-                                    setSelectedCourseId(course.id);
-                                    setActiveTab("COURSES");
-                                  }}
-                                  className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600"
-                                  title="Open Course Modules"
-                                >
-                                  <ArrowUpRight className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Course-Grounded AI Study Copilot */}
-                  <div
-                    className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs space-y-4`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-blue-700" />
-                        <h3 className="text-base font-bold">
-                          TOAST AI Study Copilot (Course-Grounded RAG)
-                        </h3>
-                      </div>
-                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                        100% Permission-Scoped
-                      </span>
-                    </div>
-
-                    <div className="flex flex-wrap gap-1.5">
-                      {[
-                        "Explain LR(1) shift-reduce conflicts from my CS-301 notes",
-                        "What deadlines do I have this week?",
-                        "How is my attendance safe-bunk margin?",
-                        "Explain Banker's Algorithm from CS-302 OS notes",
-                      ].map((suggestion) => (
-                        <button
-                          key={suggestion}
-                          onClick={() => {
-                            setAiPrompt(suggestion);
-                            handleAskAi(suggestion);
-                          }}
-                          className="text-xs px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 border border-slate-200 transition"
-                        >
-                          {suggestion}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 whitespace-pre-line leading-relaxed">
-                      {aiLoading ? "Retrieving course chunks from pgvector…" : aiResponse}
-                      {aiCitations.length > 0 && (
-                        <div className="mt-3 pt-3 border-t border-slate-200 flex flex-wrap gap-1.5">
-                          {aiCitations.map((cit) => (
-                            <span
-                              key={cit}
-                              className="text-[11px] font-mono px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600"
-                            >
-                              📄 {cit}
-                            </span>
-                          ))}
-                        </div>
+                      {attendanceFeedback && (
+                        <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+                          {attendanceFeedback}
+                        </p>
                       )}
                     </div>
 
-                    <div className="flex gap-2">
+                    {/* Today's Classes Stack */}
+                    <div className="relative z-10 space-y-2">
+                      {state.courses.map((c) => (
+                        <div
+                          key={c.id}
+                          onClick={() => {
+                            setSelectedCourseId(c.id);
+                            setActiveTab("COURSES");
+                          }}
+                          className={`rounded-xl border p-3 cursor-pointer transition hover:-translate-y-0.5 ${glassCardClass} flex items-center justify-between gap-2`}
+                        >
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-[11px] font-bold">
+                                {c.code}
+                              </span>
+                              <span className="text-xs font-medium truncate">
+                                {c.title}
+                              </span>
+                            </div>
+                            <p className={`text-[10px] font-mono mt-0.5 ${mutedText}`}>
+                              {c.nextClassTime} • {c.room}
+                            </p>
+                          </div>
+                          <span className="font-mono text-[11px] font-semibold text-emerald-600 shrink-0">
+                            {((c.attendedClasses / c.totalClasses) * 100).toFixed(
+                              0
+                            )}
+                            %
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* -----------------------------------------------------------
+                    ISLAND 02/03: SMART DEADLINE & <2MB COMPRESSOR FORGE
+                ----------------------------------------------------------- */}
+                <div className="p-5 flex flex-col justify-between space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className={`flex w-7 h-7 items-center justify-center rounded-md border ${borderCol}`}
+                      >
+                        <Clock className="w-3.5 h-3.5" />
+                      </span>
+                      <div>
+                        <p className="font-orbitron text-sm font-medium">
+                          Smart Deadline Forge
+                        </p>
+                        <p className={`text-[11px] ${mutedText}`}>
+                          Priority Queue + &lt;2MB Auto-Compressor
+                        </p>
+                      </div>
+                    </div>
+                    <span className={`font-mono text-[10px] ${mutedText}`}>
+                      02/03
+                    </span>
+                  </div>
+
+                  <div
+                    className={`relative rounded-[2.2rem] border p-4 overflow-hidden ${motionIslandClass} space-y-3`}
+                  >
+                    <div
+                      className="pointer-events-none absolute inset-0 rounded-[2.2rem] bg-[radial-gradient(circle_at_80%_0%,rgba(251,113,133,0.22),transparent_36%),radial-gradient(circle_at_0%_75%,rgba(251,146,60,0.2),transparent_36%)]"
+                    />
+
+                    {state.deadlines.slice(0, 3).map((dl: SmartDeadline) => (
+                      <div
+                        key={dl.id}
+                        className={`relative z-10 rounded-[1.35rem] border p-4 ${glassCardClass} space-y-2.5`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-zinc-300/80 dark:border-zinc-700">
+                              {dl.courseCode} • {dl.coTag}
+                            </span>
+                            <h4 className="text-xs font-semibold mt-1.5 leading-snug">
+                              {dl.title}
+                            </h4>
+                          </div>
+                          <span
+                            className={`font-mono text-[10px] px-2 py-0.5 rounded-full shrink-0 font-semibold ${
+                              dl.status === "PENDING"
+                                ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
+                                : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                            }`}
+                          >
+                            {dl.status === "PENDING" ? dl.dueAt : dl.status}
+                          </span>
+                        </div>
+
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[10px] font-mono">
+                            <span className={mutedText}>Milestone Progress</span>
+                            <span className="font-bold">{dl.progressPct}%</span>
+                          </div>
+                          <input
+                            type="range"
+                            min={0}
+                            max={100}
+                            step={5}
+                            value={dl.progressPct}
+                            onChange={(e) =>
+                              mutateUniversity("UPDATE_DEADLINE_PROGRESS", {
+                                deadlineId: dl.id,
+                                progressPct: Number(e.target.value),
+                              })
+                            }
+                            className="w-full accent-zinc-950 dark:accent-white h-1.5 cursor-pointer"
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1">
+                          <span className={`font-mono text-[10px] ${mutedText}`}>
+                            Max &lt;{dl.maxFileSizeMb.toFixed(1)} MB
+                          </span>
+                          {dl.status === "PENDING" ? (
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => {
+                                  setAttachDeadlineId(dl.id);
+                                  setActiveTab("COMPRESSOR");
+                                }}
+                                className="px-2.5 py-1 rounded-full border border-zinc-300 dark:border-zinc-700 font-mono text-[10px] hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+                              >
+                                Compress &lt;2MB
+                              </button>
+                              <button
+                                onClick={() =>
+                                  mutateUniversity("SUBMIT_ASSIGNMENT", {
+                                    deadlineId: dl.id,
+                                    fileName: `24BCE1042_${dl.courseCode}_Optimized.pdf`,
+                                    sizeMb: 1.41,
+                                  })
+                                }
+                                className="px-2.5 py-1 rounded-full bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-mono text-[10px] font-semibold"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="font-mono text-[10px] text-emerald-600">
+                              ✓ {dl.submittedFileName}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* -----------------------------------------------------------
+                    ISLAND 03/03: AI RAG MOTION KERNEL & CONIC ORBIT CORE
+                ----------------------------------------------------------- */}
+                <div className="p-5 flex flex-col justify-between space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className={`flex w-7 h-7 items-center justify-center rounded-md border ${borderCol}`}
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </span>
+                      <div>
+                        <p className="font-orbitron text-sm font-medium">
+                          Course AI Kernel
+                        </p>
+                        <p className={`text-[11px] ${mutedText}`}>
+                          Permission-Scoped RAG + Citations
+                        </p>
+                      </div>
+                    </div>
+                    <span className={`font-mono text-[10px] ${mutedText}`}>
+                      03/03
+                    </span>
+                  </div>
+
+                  <div
+                    className={`relative rounded-[2.2rem] border p-4 overflow-hidden ${motionIslandClass} flex-1 flex flex-col justify-between gap-3`}
+                  >
+                    {/* Top Vengeance Generator Prompt Pill */}
+                    <div
+                      className={`relative z-10 flex h-10 items-center gap-2 rounded-full border px-3.5 ${glassCardClass}`}
+                    >
                       <input
                         type="text"
                         value={aiPrompt}
                         onChange={(e) => setAiPrompt(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleAskAi()}
-                        placeholder="Ask about your lecture slides, syllabus, deadlines, or attendance…"
-                        className="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-900"
+                        placeholder="Ask CS-301 / CS-302 course RAG…"
+                        className="min-w-0 flex-1 bg-transparent font-mono text-xs outline-none"
                       />
                       <button
                         onClick={() => handleAskAi()}
-                        className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold flex items-center gap-1.5 transition"
+                        className="flex w-7 h-7 items-center justify-center rounded-full bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shrink-0"
+                        title="Ask Course RAG"
                       >
-                        <Send className="w-3.5 h-3.5" />
-                        Ask
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* RIGHT 5 COLS: SMART DEADLINE PRIORITY QUEUE + QUICK COMPRESSOR */}
-                <div className="xl:col-span-5 space-y-6">
-                  <div
-                    className={`rounded-2xl border p-5 ${surfaceClass} shadow-2xs space-y-4`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
-                          Smart Deadline Engine
-                        </span>
-                        <h3 className="text-base font-bold">
-                          Priority Work Queue (Urgency × Credits)
-                        </h3>
-                      </div>
-                      <button
-                        onClick={() => setActiveTab("DEADLINES")}
-                        className="text-xs font-semibold text-blue-700 hover:underline"
-                      >
-                        View All ({state.deadlines.length})
+                        <Sparkles className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
-                    <div className="space-y-3">
-                      {state.deadlines.map((dl: SmartDeadline) => (
-                        <div
-                          key={dl.id}
-                          className="p-4 rounded-xl border border-slate-200 bg-white space-y-3 hover:border-blue-300 transition"
+                    {/* Quick Prompt Chips */}
+                    <div className="relative z-10 flex flex-wrap gap-1.5">
+                      {[
+                        {
+                          label: "LR(1) Conflicts",
+                          q: "Explain LR(1) shift-reduce conflicts from my CS-301 notes",
+                        },
+                        {
+                          label: "Banker's Algorithm",
+                          q: "Explain Banker's Algorithm from CS-302 OS notes",
+                        },
+                        {
+                          label: "Safe-Bunk Margin",
+                          q: "How is my attendance safe-bunk margin?",
+                        },
+                        {
+                          label: "This Week's Deadlines",
+                          q: "What deadlines do I have this week?",
+                        },
+                      ].map((chip) => (
+                        <button
+                          key={chip.label}
+                          onClick={() => {
+                            setAiPrompt(chip.q);
+                            handleAskAi(chip.q);
+                          }}
+                          className={`px-2.5 py-1 rounded-full border font-mono text-[10px] transition hover:-translate-y-0.5 ${glassCardClass}`}
                         >
-                          <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-800">
-                                  {dl.courseCode}
-                                </span>
-                                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                                  {dl.coTag} • {dl.weightagePct}% Weight
-                                </span>
-                              </div>
-                              <h4 className="text-sm font-bold text-slate-900 mt-1">
-                                {dl.title}
-                              </h4>
-                            </div>
-                            <span
-                              className={`text-xs font-semibold px-2.5 py-0.5 rounded-full shrink-0 ${
-                                dl.status === "GRADED"
-                                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                  : dl.status === "SUBMITTED"
-                                  ? "bg-blue-50 text-blue-700 border border-blue-200"
-                                  : dl.hoursRemaining <= 36
-                                  ? "bg-amber-50 text-amber-800 border border-amber-200"
-                                  : "bg-slate-100 text-slate-700"
-                              }`}
-                            >
-                              {dl.status === "GRADED"
-                                ? `Graded: ${dl.marksAwarded}/${dl.maxMarks}`
-                                : dl.status === "SUBMITTED"
-                                ? "✓ Submitted"
-                                : dl.dueAt}
-                            </span>
-                          </div>
+                          {chip.label}
+                        </button>
+                      ))}
+                    </div>
 
-                          {/* Interactive Progress Slider */}
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="text-slate-500">
-                                Personal Progress Milestone
-                              </span>
-                              <span className="font-mono font-bold text-slate-800">
-                                {dl.progressPct}%
-                              </span>
-                            </div>
-                            <input
-                              type="range"
-                              min={0}
-                              max={100}
-                              step={5}
-                              value={dl.progressPct}
-                              onChange={(e) =>
-                                mutateUniversity("UPDATE_DEADLINE_PROGRESS", {
-                                  deadlineId: dl.id,
-                                  progressPct: Number(e.target.value),
-                                })
-                              }
-                              className="w-full accent-blue-700 cursor-pointer"
-                            />
+                    {/* Vengeance UI Conic Ring Core Badge + Grounded Response */}
+                    <div
+                      className={`relative z-10 rounded-[1.35rem] border p-4 ${glassCardClass} space-y-3`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="relative flex w-10 h-10 items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-800 shrink-0 overflow-hidden">
+                          <div className="absolute inset-0 bg-[conic-gradient(from_145deg,transparent_0_20%,#93c5fd_36%,#a5b4fc_50%,#f9a8d4_64%,#fde68a_78%,transparent_90%)] animate-spin-slow opacity-85" />
+                          <span className="relative flex w-8 h-8 items-center justify-center rounded-lg bg-zinc-950 text-white font-mono text-[9px] font-bold">
+                            RAG
+                          </span>
+                        </div>
+                        <div>
+                          <div className="font-orbitron text-xs font-semibold">
+                            Grounded Academic Answer
                           </div>
-
-                          {/* Action Footer */}
-                          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                            <span className="text-[11px] text-slate-500 font-mono">
-                              Limit: &lt;{dl.maxFileSizeMb.toFixed(1)} MB PDF/DOCX
-                            </span>
-                            {dl.status === "PENDING" ? (
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={() => {
-                                    setAttachDeadlineId(dl.id);
-                                    setActiveTab("COMPRESSOR");
-                                  }}
-                                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
-                                >
-                                  Compress &lt;2MB
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    mutateUniversity("SUBMIT_ASSIGNMENT", {
-                                      deadlineId: dl.id,
-                                      fileName: `24BCE1042_${dl.courseCode}_Report.pdf`,
-                                      sizeMb: 1.48,
-                                    })
-                                  }
-                                  className="px-3 py-1 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold transition"
-                                >
-                                  Submit Now
-                                </button>
-                              </div>
-                            ) : (
-                              <span className="text-xs font-medium text-emerald-700">
-                                {dl.submittedFileName} ({dl.submittedSizeMb} MB)
-                              </span>
-                            )}
+                          <div className={`font-mono text-[10px] ${mutedText}`}>
+                            {aiLoading
+                              ? "Searching pgvector HNSW index…"
+                              : "Verified against Sem 5 Syllabus"}
                           </div>
                         </div>
-                      ))}
+                      </div>
+
+                      <div className="text-xs leading-relaxed whitespace-pre-line max-h-48 overflow-y-auto pr-1">
+                        {aiResponse}
+                      </div>
+
+                      <div className="flex flex-wrap gap-1 pt-2 border-t border-zinc-200/70 dark:border-zinc-800">
+                        {aiCitations.map((cit) => (
+                          <span
+                            key={cit}
+                            className="font-mono text-[10px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900"
+                          >
+                            📄 {cit}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1263,130 +1422,110 @@ export default function ToastUniversityOS() {
           )}
 
           {/* =================================================================
-              TAB 2: COURSES, SYLLABUS TREE & OFFLINE PWA PINNING
+              TAB 2: COURSES & SYLLABUS TREE
           ================================================================= */}
           {activeTab === "COURSES" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-4 space-y-3">
-                {state.courses.map((course) => {
-                  const isSelected = course.id === selectedCourse.id;
-                  const pct = (
-                    (course.attendedClasses / course.totalClasses) *
-                    100
-                  ).toFixed(1);
-                  return (
-                    <button
-                      key={course.id}
-                      onClick={() => setSelectedCourseId(course.id)}
-                      className={`w-full text-left p-4 rounded-2xl border transition ${
-                        isSelected
-                          ? "bg-blue-50/90 border-blue-400 shadow-xs"
-                          : `${surfaceClass} hover:border-slate-300`
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="px-2.5 py-0.5 rounded-md bg-blue-700 text-white font-mono text-xs font-bold">
-                          {course.code}
-                        </span>
-                        <span className="text-xs font-mono font-semibold text-emerald-700">
-                          Attendance: {pct}%
-                        </span>
-                      </div>
-                      <h3 className="text-base font-bold mt-2">{course.title}</h3>
-                      <p className={`text-xs mt-1 ${mutedText}`}>
-                        {course.instructor} • {course.credits} Credits •{" "}
-                        {course.room}
-                      </p>
-                    </button>
-                  );
-                })}
+            <div className={`grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x ${divideCol}`}>
+              <div className="lg:col-span-4 p-6 space-y-3">
+                <p className="font-orbitron text-xs font-semibold uppercase">
+                  Semester 05 Course Offerings
+                </p>
+                {state.courses.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => setSelectedCourseId(c.id)}
+                    className={`w-full text-left p-4 rounded-2xl border transition ${
+                      selectedCourse.id === c.id
+                        ? "border-zinc-950 dark:border-white bg-zinc-100/80 dark:bg-white/[0.06]"
+                        : `${cardSurface}`
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-mono text-xs">
+                      <span className="font-bold">{c.code}</span>
+                      <span className="text-emerald-600">
+                        {((c.attendedClasses / c.totalClasses) * 100).toFixed(1)}%
+                        Att
+                      </span>
+                    </div>
+                    <div className="font-semibold text-sm mt-1">{c.title}</div>
+                    <div className={`text-xs font-mono mt-1 ${mutedText}`}>
+                      {c.instructor} • {c.credits} Credits
+                    </div>
+                  </button>
+                ))}
               </div>
 
-              <div className="lg:col-span-8 space-y-4">
-                <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-5`}>
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-blue-100 text-blue-800">
-                          {selectedCourse.code}
-                        </span>
-                        <span className="text-xs font-mono text-slate-500">
-                          OBE CO Attainment: {selectedCourse.coAttainmentPct}%
-                        </span>
-                      </div>
-                      <h2 className="text-xl font-bold mt-1">
-                        {selectedCourse.title}
-                      </h2>
-                      <p className={`text-xs ${mutedText}`}>
-                        Instructor: {selectedCourse.instructor} • Room:{" "}
-                        {selectedCourse.room}
-                      </p>
-                    </div>
+              <div className="lg:col-span-8 p-6 space-y-5">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <span className="font-mono text-xs px-2.5 py-0.5 rounded border border-zinc-300 dark:border-zinc-700">
+                      {selectedCourse.code} • OBE Attainment{" "}
+                      {selectedCourse.coAttainmentPct}%
+                    </span>
+                    <h2 className="font-orbitron text-xl font-semibold mt-2">
+                      {selectedCourse.title}
+                    </h2>
                   </div>
+                </div>
 
-                  {/* Module Syllabus Tree */}
-                  <div className="space-y-4">
-                    {selectedCourse.modules.map((mod) => (
+                <div className="space-y-4">
+                  {selectedCourse.modules.map((mod) => (
+                    <div
+                      key={mod.id}
+                      className={`rounded-2xl border ${cardSurface} overflow-hidden`}
+                    >
                       <div
-                        key={mod.id}
-                        className="rounded-xl border border-slate-200 overflow-hidden"
+                        className={`px-4 py-3 border-b ${borderCol} flex items-center justify-between`}
                       >
-                        <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                          <span className="text-sm font-bold text-slate-900">
-                            Module {mod.number}: {mod.title}
-                          </span>
-                          <span className="text-xs text-slate-500 font-mono">
-                            {mod.items.length} resources
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200 bg-white">
-                          {mod.items.map((item) => (
-                            <div
-                              key={item.id}
-                              className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                            >
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <FileText className="w-4 h-4 text-blue-700 shrink-0" />
-                                  <span className="text-sm font-semibold text-slate-900">
-                                    {item.title}
-                                  </span>
-                                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                                    {item.coTag}
-                                  </span>
-                                </div>
-                                <p className="text-xs text-slate-600 pl-6">
-                                  <strong>AI Digest:</strong> {item.summary}
-                                </p>
-                              </div>
-                              <div className="flex items-center gap-2 shrink-0 pl-6 sm:pl-0">
-                                <span className="text-xs font-mono text-slate-500">
-                                  {item.sizeMb} MB
-                                </span>
-                                <button
-                                  onClick={() =>
-                                    mutateUniversity("TOGGLE_OFFLINE_PIN", {
-                                      courseId: selectedCourse.id,
-                                      itemId: item.id,
-                                    })
-                                  }
-                                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                                    item.offlinePinned
-                                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                                  }`}
-                                >
-                                  {item.offlinePinned
-                                    ? "✓ Pinned Offline"
-                                    : "Pin for Offline"}
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+                        <span className="font-orbitron text-xs font-semibold">
+                          MODULE 0{mod.number} — {mod.title}
+                        </span>
+                        <span className={`font-mono text-[11px] ${mutedText}`}>
+                          {mod.items.length} artifacts
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      <div className={`divide-y ${divideCol}`}>
+                        {mod.items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                          >
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2">
+                                <FileText className="w-4 h-4 shrink-0" />
+                                <span className="text-sm font-semibold">
+                                  {item.title}
+                                </span>
+                                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded border border-zinc-300 dark:border-zinc-700">
+                                  {item.coTag}
+                                </span>
+                              </div>
+                              <p className={`text-xs pl-6 ${mutedText}`}>
+                                {item.summary}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() =>
+                                mutateUniversity("TOGGLE_OFFLINE_PIN", {
+                                  courseId: selectedCourse.id,
+                                  itemId: item.id,
+                                })
+                              }
+                              className={`vng-pop-btn px-3 py-1.5 rounded-lg font-mono text-xs font-semibold shrink-0 ${
+                                item.offlinePinned
+                                  ? "bg-emerald-600 text-white"
+                                  : "bg-white dark:bg-zinc-900"
+                              }`}
+                            >
+                              {item.offlinePinned
+                                ? "✓ Pinned Offline"
+                                : `Pin Offline (${item.sizeMb} MB)`}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1396,68 +1535,43 @@ export default function ToastUniversityOS() {
               TAB 3: SMART DEADLINES FULL VIEW
           ================================================================= */}
           {activeTab === "DEADLINES" && (
-            <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-5`}>
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
-                    SMART DEADLINE &amp; MILESTONE ENGINE
-                  </span>
-                  <h2 className="text-xl font-bold mt-0.5">
-                    Actionable Academic Breakdown &amp; Timestamp-Locked Submissions
-                  </h2>
-                </div>
+            <div className="p-6 space-y-5">
+              <div>
+                <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                  URGENCY × CREDIT WEIGHT × MILESTONE ENGINE
+                </p>
+                <h2 className="font-orbitron text-xl font-semibold mt-1">
+                  Smart Academic Deadlines
+                </h2>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {state.deadlines.map((dl) => (
                   <div
                     key={dl.id}
-                    className="p-5 rounded-2xl border border-slate-200 bg-white space-y-4"
+                    className={`rounded-3xl border p-5 ${cardSurface} space-y-4`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-xs font-bold">
-                          {dl.courseCode} • {dl.coTag}
+                        <span className="font-mono text-xs font-bold">
+                          {dl.courseCode} • {dl.coTag} ({dl.weightagePct}% Weight)
                         </span>
-                        <h3 className="text-base font-bold text-slate-900 mt-1.5">
-                          {dl.title}
-                        </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Due: <strong>{dl.dueAt}</strong> • Max Marks:{" "}
-                          {dl.maxMarks} ({dl.weightagePct}% course weight)
-                        </p>
+                        <h3 className="text-base font-bold mt-1">{dl.title}</h3>
                       </div>
-                      <span
-                        className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                          dl.status === "PENDING"
-                            ? "bg-amber-50 text-amber-800 border border-amber-200"
-                            : "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        }`}
-                      >
-                        {dl.status}
+                      <span className="font-mono text-xs px-2.5 py-1 rounded-full border border-zinc-300 dark:border-zinc-700">
+                        {dl.status === "PENDING" ? dl.dueAt : dl.status}
                       </span>
                     </div>
-
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                      <div className="text-xs font-bold text-slate-700">
-                        Recommended Action Plan:
-                      </div>
-                      {dl.suggestedMilestones.map((m, i) => (
+                    <div className="space-y-1.5">
+                      {dl.suggestedMilestones.map((m, idx) => (
                         <div
-                          key={i}
-                          className="text-xs text-slate-600 flex items-center gap-2"
+                          key={idx}
+                          className={`text-xs flex items-center gap-2 ${mutedText}`}
                         >
-                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                           <span>{m}</span>
                         </div>
                       ))}
                     </div>
-
-                    {dl.feedback && (
-                      <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
-                        <strong>Faculty Feedback:</strong> {dl.feedback}
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -1465,38 +1579,32 @@ export default function ToastUniversityOS() {
           )}
 
           {/* =================================================================
-              TAB 4: BUILT-IN <2 MB PDF & DOCX COMPRESSOR STUDIO
+              TAB 4: DOCUMENT COMPRESSOR (<2 MB)
           ================================================================= */}
           {activeTab === "COMPRESSOR" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-7">
-                <form
-                  onSubmit={handleRunCompressor}
-                  className={`rounded-2xl border p-6 ${surfaceClass} space-y-5`}
-                >
+            <div className={`grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x ${divideCol}`}>
+              <div className="lg:col-span-7 p-6">
+                <form onSubmit={handleRunCompressor} className="space-y-5">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
-                      UNIVERSITY DOCUMENT STUDIO &amp; MICROSERVICE WORKER
-                    </span>
-                    <h2 className="text-xl font-bold mt-0.5">
-                      PDF &amp; DOCX Optimizer (&lt; 2.0 MB University Upload Limit)
-                    </h2>
-                    <p className={`text-xs mt-1 ${mutedText}`}>
-                      Compress heavy scanned lab records, Wireshark screenshots, and
-                      LaTeX PDFs directly inside TOAST and lock in your submission
-                      timestamp immediately.
+                    <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                      ISOLATED GHOSTSCRIPT / QPDF / OOXML WORKER
                     </p>
+                    <h2 className="font-orbitron text-xl font-semibold mt-1">
+                      Document Compressor (&lt; 2.0 MB University Upload Target)
+                    </h2>
                   </div>
 
-                  <div className="border-2 border-dashed border-blue-300 bg-blue-50/50 rounded-2xl p-6 text-center space-y-3">
-                    <FileArchive className="w-10 h-10 text-blue-700 mx-auto" />
-                    <div className="text-sm font-semibold text-slate-900">
+                  <div
+                    className={`rounded-[2rem] border p-6 text-center space-y-3 ${motionIslandClass}`}
+                  >
+                    <FileArchive className="w-9 h-9 mx-auto" />
+                    <div className="text-sm font-semibold">
                       {selectedFile
                         ? `${selectedFile.name} (${(
                             selectedFile.size /
                             (1024 * 1024)
                           ).toFixed(2)} MB)`
-                        : "Select any PDF or DOCX file (or click Compress below to run with sample 11.3 MB Lab Report)"}
+                        : "Drop PDF or DOCX here (or click Compress to test with 11.3 MB Lab Report)"}
                     </div>
                     <input
                       type="file"
@@ -1504,14 +1612,14 @@ export default function ToastUniversityOS() {
                       onChange={(e) =>
                         setSelectedFile(e.target.files?.[0] || null)
                       }
-                      className="block mx-auto text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-700 file:text-white hover:file:bg-blue-800"
+                      className="block mx-auto text-xs font-mono file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-zinc-950 file:text-white"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Optimization Preset
+                      <label className="block font-mono text-[11px] mb-1">
+                        Preset
                       </label>
                       <select
                         value={compressPreset}
@@ -1523,22 +1631,21 @@ export default function ToastUniversityOS() {
                               | "HIGH_QUALITY"
                           )
                         }
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-900"
+                        className={`w-full px-3 py-2 rounded-lg border ${borderCol} bg-transparent text-xs font-mono`}
                       >
-                        <option value="BALANCED">
-                          Balanced (150 DPI • ~81% smaller)
+                        <option value="BALANCED" className="text-black">
+                          Balanced (150 DPI)
                         </option>
-                        <option value="MAX_COMPRESSION">
-                          Max Compression (120 DPI • ~86% smaller)
+                        <option value="MAX_COMPRESSION" className="text-black">
+                          Max Compression (120 DPI)
                         </option>
-                        <option value="HIGH_QUALITY">
-                          High Print Quality (220 DPI • ~68% smaller)
+                        <option value="HIGH_QUALITY" className="text-black">
+                          High Quality (220 DPI)
                         </option>
                       </select>
                     </div>
-
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                      <label className="block font-mono text-[11px] mb-1">
                         Target Max Size (MB)
                       </label>
                       <input
@@ -1548,25 +1655,30 @@ export default function ToastUniversityOS() {
                         max="10"
                         value={targetMb}
                         onChange={(e) => setTargetMb(Number(e.target.value))}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm font-mono text-slate-900"
+                        className={`w-full px-3 py-2 rounded-lg border ${borderCol} bg-transparent text-xs font-mono`}
                       />
                     </div>
-
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Auto-Attach to Assignment
+                      <label className="block font-mono text-[11px] mb-1">
+                        Attach to Deadline
                       </label>
                       <select
                         value={attachDeadlineId}
                         onChange={(e) => setAttachDeadlineId(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-900"
+                        className={`w-full px-3 py-2 rounded-lg border ${borderCol} bg-transparent text-xs font-mono`}
                       >
-                        <option value="NONE">Just Compress &amp; Download</option>
+                        <option value="NONE" className="text-black">
+                          Download Only
+                        </option>
                         {state.deadlines
                           .filter((d) => d.status === "PENDING")
                           .map((d) => (
-                            <option key={d.id} value={d.id}>
-                              {d.courseCode}: {d.title.slice(0, 28)}…
+                            <option
+                              key={d.id}
+                              value={d.id}
+                              className="text-black"
+                            >
+                              {d.courseCode}: {d.title.slice(0, 24)}…
                             </option>
                           ))}
                       </select>
@@ -1576,111 +1688,95 @@ export default function ToastUniversityOS() {
                   <button
                     type="submit"
                     disabled={isCompressing}
-                    className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-semibold text-sm shadow-xs transition"
+                    className="w-full py-3 rounded-xl bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-orbitron text-xs font-semibold tracking-wider uppercase transition hover:opacity-90"
                   >
                     {isCompressing
-                      ? "Compressing in Isolated Worker Container…"
-                      : "⚡ Compress Document Under 2.0 MB & Lock Submission Timestamp"}
+                      ? "COMPRESSING IN WORKER CONTAINER…"
+                      : "⚡ COMPRESS UNDER 2.0 MB & LOCK SUBMISSION TIMESTAMP"}
                   </button>
 
                   {lastCompressedMsg && (
-                    <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800">
-                      ✅ {lastCompressedMsg}
+                    <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 font-mono text-xs text-emerald-700 dark:text-emerald-300">
+                      ✓ {lastCompressedMsg}
                     </div>
                   )}
                 </form>
               </div>
 
-              <div className="lg:col-span-5">
-                <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-4`}>
-                  <h3 className="text-base font-bold">
-                    Recent Server Compression Jobs
-                  </h3>
-                  <div className="space-y-3">
-                    {state.compressionHistory.map((job) => (
-                      <div
-                        key={job.id}
-                        className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-900 truncate">
-                            {job.originalName}
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-xs font-bold">
-                            -{job.reductionPct}%
-                          </span>
-                        </div>
-                        <div className="text-xs font-mono text-slate-600">
-                          {(job.originalSizeBytes / (1024 * 1024)).toFixed(2)} MB →{" "}
-                          <strong className="text-emerald-700">
-                            {(job.compressedSizeBytes / (1024 * 1024)).toFixed(2)}{" "}
-                            MB
-                          </strong>{" "}
-                          • {job.durationMs}ms • {job.createdAt}
-                        </div>
+              <div className="lg:col-span-5 p-6 space-y-4">
+                <h3 className="font-orbitron text-sm font-semibold">
+                  Compression Worker Ledger
+                </h3>
+                <div className="space-y-3">
+                  {state.compressionHistory.map((job) => (
+                    <div
+                      key={job.id}
+                      className={`p-4 rounded-2xl border ${cardSurface} space-y-1`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold truncate">
+                          {job.originalName}
+                        </span>
+                        <span className="font-mono text-xs font-bold text-emerald-600">
+                          -{job.reductionPct}%
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      <p className={`font-mono text-[11px] ${mutedText}`}>
+                        {(job.originalSizeBytes / (1024 * 1024)).toFixed(2)} MB →{" "}
+                        <strong>
+                          {(job.compressedSizeBytes / (1024 * 1024)).toFixed(2)}{" "}
+                          MB
+                        </strong>{" "}
+                        • {job.durationMs}ms
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           )}
 
           {/* =================================================================
-              TAB 5: VIVA, LAB EVALUATION & OFFICE-HOURS SLOT BOOKING
+              TAB 5: VIVA & LAB SLOT BOOKING
           ================================================================= */}
           {activeTab === "VIVA_SLOTS" && (
-            <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-5`}>
+            <div className="p-6 space-y-5">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
-                  REDIS-LOCKED APPOINTMENT &amp; VIVA SCHEDULER
-                </span>
-                <h2 className="text-xl font-bold mt-0.5">
-                  Project Viva, Lab Practical &amp; Faculty Office-Hours Slot Booking
-                </h2>
-                <p className={`text-xs mt-1 ${mutedText}`}>
-                  Eliminates messy shared spreadsheets. Every booking acquires an
-                  atomic Redis distributed lock so two students never double-book a
-                  slot.
+                <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                  REDIS DISTRIBUTED LOCK SLOT SCHEDULER
                 </p>
+                <h2 className="font-orbitron text-xl font-semibold mt-1">
+                  Project Viva &amp; Lab Evaluation Slots
+                </h2>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {state.vivaSlots.map((slot) => {
                   const isMine = slot.bookedByStudentId === "usr-student-1";
-                  const isTaken =
-                    slot.bookedByStudentId !== null && !isMine;
+                  const isTaken = slot.bookedByStudentId !== null && !isMine;
                   return (
                     <div
                       key={slot.id}
-                      className={`p-5 rounded-2xl border transition ${
-                        isMine
-                          ? "bg-blue-50/70 border-blue-400"
-                          : "bg-white border-slate-200"
-                      } flex flex-col justify-between gap-4`}
+                      className={`p-5 rounded-2xl border ${cardSurface} flex flex-col justify-between gap-4`}
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between">
-                          <span className="px-2.5 py-0.5 rounded bg-slate-100 text-slate-800 font-mono text-xs font-bold">
-                            {slot.courseCode}
-                          </span>
-                          <span className="text-xs font-mono font-semibold text-blue-700">
+                      <div>
+                        <div className="flex items-center justify-between font-mono text-xs">
+                          <span className="font-bold">{slot.courseCode}</span>
+                          <span>
                             {slot.dateLabel} • {slot.timeRange}
                           </span>
                         </div>
-                        <h3 className="text-base font-bold text-slate-900 mt-1">
+                        <h3 className="text-base font-semibold mt-1.5">
                           {slot.title}
                         </h3>
-                        <p className="text-xs text-slate-600">
-                          Evaluator: {slot.evaluator} • Location: {slot.room}
+                        <p className={`text-xs font-mono mt-1 ${mutedText}`}>
+                          {slot.evaluator} • {slot.room}
                         </p>
                       </div>
-
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-200">
-                        <span className="text-xs font-medium text-slate-600">
+                      <div className="flex items-center justify-between pt-3 border-t border-neutral-200/70 dark:border-zinc-800">
+                        <span className={`font-mono text-xs ${mutedText}`}>
                           {slot.bookedByStudentName
-                            ? `Booked by: ${slot.bookedByStudentName}`
-                            : "Status: Available (15 min slot)"}
+                            ? `Locked: ${slot.bookedByStudentName}`
+                            : "Available (15m)"}
                         </span>
                         <button
                           disabled={isTaken}
@@ -1691,19 +1787,19 @@ export default function ToastUniversityOS() {
                               studentName: "Dhairya Shah (24BCE1042)",
                             })
                           }
-                          className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                          className={`vng-pop-btn px-3.5 py-1.5 rounded-lg font-mono text-xs font-semibold ${
                             isMine
-                              ? "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100"
+                              ? "bg-rose-600 text-white"
                               : isTaken
-                              ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                              : "bg-blue-700 hover:bg-blue-800 text-white"
+                              ? "opacity-40 cursor-not-allowed"
+                              : "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950"
                           }`}
                         >
                           {isMine
-                            ? "Release My Slot"
+                            ? "Release Slot"
                             : isTaken
-                            ? "Slot Locked"
-                            : "Book This Viva Slot"}
+                            ? "Locked"
+                            : "Book Viva Slot"}
                         </button>
                       </div>
                     </div>
@@ -1714,45 +1810,41 @@ export default function ToastUniversityOS() {
           )}
 
           {/* =================================================================
-              TAB 6: HIGH-CONCURRENCY TIMED EXAM ENGINE (REDIS AUTOSAVE)
+              TAB 6: HIGH-CONCURRENCY TIMED EXAM ENGINE
           ================================================================= */}
           {activeTab === "LIVE_EXAM" && (
-            <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-5`}>
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div className="p-6 space-y-5">
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-                    SYNCHRONIZED UNIVERSITY EXAM ENGINE (2,000+ CONCURRENT SEATS)
-                  </span>
-                  <h2 className="text-xl font-bold mt-0.5">
-                    CS-301 Mid-Semester Quiz • Syntax Analysis &amp; LR Parsers
+                  <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    REDIS HASH SUB-MILLISECOND AUTOSAVE ENGINE
+                  </p>
+                  <h2 className="font-orbitron text-xl font-semibold mt-1">
+                    CS-301 Mid-Semester Timed Assessment
                   </h2>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-mono font-semibold">
+                <div className="flex items-center gap-3 font-mono text-xs">
+                  <span className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
                     ✓ {examAutosaveStatus}
                   </span>
-                  <span className="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-mono text-sm font-bold tabular-nums">
-                    ⏱ 24:18
+                  <span className="px-3.5 py-1.5 rounded-lg bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold tabular-nums">
+                    24:18
                   </span>
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                <div className="flex items-center justify-between text-xs font-mono text-slate-500">
-                  <span>Question 4 of 15 • Tagged: CO2 (Bloom Level L4)</span>
-                  <span>+2.0 Marks / -0.5 Negative</span>
-                </div>
-                <p className="text-base font-semibold text-slate-900">
-                  When merging LR(1) states that share an identical LR(0) core item
-                  set to construct an LALR(1) parsing table, which of the following
-                  holds true?
+              <div className={`p-6 rounded-3xl border ${cardSurface} space-y-4`}>
+                <p className="text-sm sm:text-base font-semibold">
+                  Q4 (CO2 • 2.0 Marks): When merging LR(1) states with identical
+                  LR(0) cores to build an LALR(1) parser, which statement is
+                  guaranteed?
                 </p>
                 <div className="space-y-2.5">
                   {[
-                    "New Shift-Reduce conflicts may be introduced, but never Reduce-Reduce conflicts.",
-                    "New Reduce-Reduce conflicts may be introduced, but never new Shift-Reduce conflicts.",
-                    "Neither Shift-Reduce nor Reduce-Reduce conflicts can ever be introduced.",
-                    "The number of states in the LALR(1) automaton is strictly greater than in the LR(0) automaton.",
+                    "Shift-Reduce conflicts may arise, but never Reduce-Reduce conflicts.",
+                    "Reduce-Reduce conflicts may arise, but never new Shift-Reduce conflicts.",
+                    "Neither conflict type can ever be introduced by state merging.",
+                    "LALR(1) tables have more states than canonical LR(1) tables.",
                   ].map((opt, idx) => (
                     <button
                       key={idx}
@@ -1762,18 +1854,18 @@ export default function ToastUniversityOS() {
                           `Saved Option ${String.fromCharCode(
                             65 + idx
                           )} to Redis Hash exam:attempt:24BCE1042 in ${(
-                            1.8 +
-                            Math.random() * 2.1
+                            1.6 +
+                            Math.random() * 1.9
                           ).toFixed(1)} ms`
                         );
                       }}
-                      className={`w-full text-left p-3.5 rounded-xl border text-sm font-medium transition flex items-center gap-3 ${
+                      className={`w-full text-left p-3.5 rounded-xl border font-mono text-xs transition flex items-center gap-3 ${
                         selectedExamAnswer === idx
-                          ? "bg-blue-50 border-blue-500 text-blue-900 font-semibold"
-                          : "bg-white border-slate-200 text-slate-800 hover:bg-slate-100"
+                          ? "border-zinc-950 bg-zinc-950 text-white dark:border-white dark:bg-white dark:text-zinc-950 font-semibold"
+                          : `${cardSurface}`
                       }`}
                     >
-                      <span className="w-6 h-6 rounded-full border border-current flex items-center justify-center font-mono text-xs">
+                      <span className="w-6 h-6 rounded-full border border-current flex items-center justify-center">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span>{opt}</span>
@@ -1785,181 +1877,196 @@ export default function ToastUniversityOS() {
           )}
 
           {/* =================================================================
-              TAB 7: DYNAMIC AUTOMATION RULES & OBE CO-PO GOVERNANCE
+              TAB 7: DYNAMIC AUTOMATION RULES & OBE MATRIX
           ================================================================= */}
           {activeTab === "GOVERNANCE" && (
-            <div className="space-y-6">
-              <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-4`}>
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-700">
-                    INSTITUTIONAL IF-THIS-THEN-THAT AUTOMATION ENGINE
-                  </span>
-                  <h2 className="text-xl font-bold mt-0.5">
-                    Dynamic University Workflow Rules
-                  </h2>
-                </div>
-
-                <div className="space-y-3">
-                  {state.dynamicRules.map((rule) => (
-                    <div
-                      key={rule.id}
-                      className="p-4 rounded-xl border border-slate-200 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-slate-900">
-                            {rule.name}
-                          </span>
-                          <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                            {rule.executionsCount.toLocaleString()} runs • Last:{" "}
-                            {rule.lastTriggered}
-                          </span>
-                        </div>
-                        <div className="text-xs font-mono text-slate-600">
-                          <strong className="text-blue-700">{rule.trigger}</strong>{" "}
-                          •{" "}
-                          <strong className="text-amber-700">
-                            {rule.condition}
-                          </strong>{" "}
-                          →{" "}
-                          <strong className="text-emerald-700">
-                            {rule.action}
-                          </strong>
-                        </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                  WHEN [TRIGGER] + IF [CONDITION] → EXECUTE [ACTION]
+                </p>
+                <h2 className="font-orbitron text-xl font-semibold mt-1">
+                  Institutional Dynamic Automation Rules
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {state.dynamicRules.map((rule) => (
+                  <div
+                    key={rule.id}
+                    className={`p-4 rounded-2xl border ${cardSurface} flex flex-col md:flex-row md:items-center justify-between gap-4`}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-sm">{rule.name}</span>
+                        <span className={`font-mono text-[10px] ${mutedText}`}>
+                          ({rule.executionsCount.toLocaleString()} runs)
+                        </span>
                       </div>
-                      <button
-                        onClick={() =>
-                          mutateUniversity("TOGGLE_DYNAMIC_RULE", {
-                            ruleId: rule.id,
-                          })
-                        }
-                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 transition ${
-                          rule.enabled
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                            : "bg-slate-100 text-slate-500 border border-slate-200"
-                        }`}
-                      >
-                        {rule.enabled ? "● Rule Active" : "○ Rule Paused"}
-                      </button>
+                      <p className={`font-mono text-xs ${mutedText}`}>
+                        {rule.trigger} • {rule.condition} →{" "}
+                        <strong className="text-current">{rule.action}</strong>
+                      </p>
                     </div>
-                  ))}
-                </div>
+                    <button
+                      onClick={() =>
+                        mutateUniversity("TOGGLE_DYNAMIC_RULE", {
+                          ruleId: rule.id,
+                        })
+                      }
+                      className={`px-3.5 py-1.5 rounded-full font-mono text-xs font-semibold shrink-0 ${
+                        rule.enabled
+                          ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30"
+                          : "border border-zinc-300 dark:border-zinc-700"
+                      }`}
+                    >
+                      {rule.enabled ? "● ACTIVE" : "○ PAUSED"}
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
           {/* =================================================================
-              TAB 8: ALIEN RUN GAMIFICATION & ACADEMIC XP WORLD
+              TAB 8: ALIEN RUN GAMIFICATION
           ================================================================= */}
           {activeTab === "ALIEN_RUN" && (
-            <div className={`rounded-2xl border p-6 ${surfaceClass} space-y-6`}>
-              <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="p-6 space-y-5">
+              <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
-                    ACADEMIC PROGRESSION &amp; GAMIFICATION ENGINE
-                  </span>
-                  <h2 className="text-xl font-bold mt-0.5">
-                    Alien Run — Sector 4: Orbital Compiler Citadel
-                  </h2>
-                  <p className={`text-xs mt-1 ${mutedText}`}>
-                    Every on-time assignment submission (+50 XP), live attendance
-                    check-in (+15 XP), and compressed document (+65 XP) powers your
-                    explorer across university worlds.
+                  <p className={`font-mono text-[10px] uppercase tracking-widest ${mutedText}`}>
+                    EVENT-DRIVEN ACADEMIC XP PROGRESSION
                   </p>
+                  <h2 className="font-orbitron text-xl font-semibold mt-1">
+                    Alien Run — Orbital Compiler Citadel
+                  </h2>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-purple-50 border border-purple-200 text-right">
-                  <div className="text-xs font-bold text-purple-700">
-                    Level {studentUser.level} Explorer
-                  </div>
-                  <div className="text-xl font-mono font-bold text-purple-900">
-                    {studentUser.xp.toLocaleString()} XP
-                  </div>
-                </div>
+                <span className="font-orbitron text-lg font-bold">
+                  {studentUser.xp.toLocaleString()} XP • LV.0{studentUser.level}
+                </span>
               </div>
-
-              {/* Interactive Progression Map */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   {
-                    stage: 1,
-                    title: "Sector 1: Lexical Canyon",
-                    reqXp: 500,
-                    reward: "Unlocked • Early Bird Badge",
+                    stage: "01",
+                    name: "Lexical Canyon",
+                    xp: 500,
+                    status: "COMPLETED",
                   },
                   {
-                    stage: 2,
-                    title: "Sector 2: Kernel Crater",
-                    reqXp: 1200,
-                    reward: "Unlocked • 7-Day Streak Shield",
+                    stage: "02",
+                    name: "Kernel Crater",
+                    xp: 1200,
+                    status: "COMPLETED",
                   },
                   {
-                    stage: 3,
-                    title: "Sector 3: Cipher Nebula",
-                    reqXp: 2000,
-                    reward: "Unlocked • Zero-Late Star",
+                    stage: "03",
+                    name: "Cipher Nebula",
+                    xp: 2000,
+                    status: "COMPLETED",
                   },
                   {
-                    stage: 4,
-                    title: "Sector 4: LALR Citadel",
-                    reqXp: 2800,
-                    reward: "In Progress • 350 XP to Boss Gate",
+                    stage: "04",
+                    name: "LALR Citadel",
+                    xp: 2800,
+                    status: "350 XP TO BOSS GATE",
                   },
-                ].map((sector) => {
-                  const unlocked = studentUser.xp >= sector.reqXp;
-                  return (
-                    <div
-                      key={sector.stage}
-                      className={`p-4 rounded-2xl border ${
-                        unlocked
-                          ? "bg-purple-50/60 border-purple-300"
-                          : "bg-slate-50 border-slate-200"
-                      } space-y-2`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono font-bold text-purple-700">
-                          STAGE 0{sector.stage}
-                        </span>
-                        <span className="text-xs font-mono text-slate-500">
-                          {sector.reqXp} XP
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-bold text-slate-900">
-                        {sector.title}
-                      </h3>
-                      <p className="text-xs text-slate-600">{sector.reward}</p>
+                ].map((s) => (
+                  <div
+                    key={s.stage}
+                    className={`p-5 rounded-3xl border ${cardSurface} space-y-2`}
+                  >
+                    <div className="flex items-center justify-between font-mono text-xs">
+                      <span>SECTOR {s.stage}</span>
+                      <span>{s.xp} XP</span>
                     </div>
-                  );
-                })}
+                    <h3 className="font-orbitron text-base font-semibold">
+                      {s.name}
+                    </h3>
+                    <p className="font-mono text-[11px] text-emerald-600">
+                      {s.status}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
-        </main>
+        </div>
+      </main>
+
+      {/* =====================================================================
+          6. VENGEANCE UI FLOATING GLASS DOCK (BOTTOM NAVIGATION)
+      ===================================================================== */}
+      <div className="fixed bottom-4 inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
+        <div
+          className={`pointer-events-auto flex items-center gap-1.5 rounded-full border px-3 py-2 shadow-[0_18px_46px_-24px_rgba(24,24,27,0.65)] backdrop-blur-md ${
+            isDark
+              ? "border-white/10 bg-[#050608]/90"
+              : "border-zinc-200/90 bg-white/90"
+          }`}
+        >
+          {(
+            [
+              { id: "DASHBOARD", label: "Command", icon: LayoutDashboard },
+              { id: "COURSES", label: "Courses", icon: BookOpen },
+              { id: "DEADLINES", label: "Deadlines", icon: Clock },
+              { id: "COMPRESSOR", label: "<2MB Compress", icon: FileArchive },
+              { id: "VIVA_SLOTS", label: "Viva", icon: Calendar },
+              { id: "LIVE_EXAM", label: "Exam", icon: Lock },
+              { id: "GOVERNANCE", label: "Rules", icon: Workflow },
+              { id: "ALIEN_RUN", label: "Alien Run", icon: Trophy },
+            ] as const
+          ).map((item) => {
+            const Icon = item.icon;
+            const active = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  active
+                    ? isDark
+                      ? "bg-white text-zinc-950 font-semibold shadow-xs scale-105"
+                      : "bg-zinc-950 text-white font-semibold shadow-xs scale-105"
+                    : `${mutedText} hover:text-current`
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* =====================================================================
-          COMMAND+K GLOBAL SEMANTIC SEARCH MODAL
+          7. COMMAND+K GLOBAL SEARCH MODAL
       ===================================================================== */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-start justify-center pt-20 p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-xl max-w-xl w-full overflow-hidden">
-            <div className="p-4 border-b border-slate-200 flex items-center gap-3">
-              <Search className="w-5 h-5 text-blue-700" />
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-start justify-center pt-20 p-4">
+          <div
+            className={`rounded-2xl border ${cardSurface} shadow-2xl max-w-xl w-full overflow-hidden`}
+          >
+            <div
+              className={`p-4 border-b ${borderCol} flex items-center gap-3`}
+            >
+              <Search className="w-4 h-4 opacity-70" />
               <input
                 autoFocus
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search courses, PDFs, deadlines, viva slots, or ask AI…"
-                className="flex-1 text-sm text-slate-900 outline-none"
+                placeholder="Search courses, PDFs, deadlines, viva slots…"
+                className="flex-1 bg-transparent font-mono text-xs outline-none"
               />
               <button
                 onClick={() => setSearchOpen(false)}
-                className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600"
+                className="font-mono text-[10px] px-2 py-0.5 rounded border border-zinc-300 dark:border-zinc-700"
               >
                 ESC
               </button>
             </div>
-            <div className="p-3 max-h-80 overflow-y-auto space-y-1">
+            <div className="p-2 max-h-72 overflow-y-auto space-y-1">
               {state.courses
                 .filter(
                   (c) =>
@@ -1974,37 +2081,15 @@ export default function ToastUniversityOS() {
                       setActiveTab("COURSES");
                       setSearchOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-blue-50 flex items-center justify-between text-sm"
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900 flex items-center justify-between text-xs"
                   >
                     <span>
-                      <strong className="font-mono text-blue-700 mr-2">
-                        {c.code}
-                      </strong>
+                      <strong className="font-mono mr-2">{c.code}</strong>
                       {c.title}
                     </span>
-                    <span className="text-xs text-slate-400">Course</span>
-                  </button>
-                ))}
-              {state.deadlines
-                .filter((d) =>
-                  d.title.toLowerCase().includes(searchQuery.toLowerCase())
-                )
-                .map((d) => (
-                  <button
-                    key={d.id}
-                    onClick={() => {
-                      setActiveTab("DEADLINES");
-                      setSearchOpen(false);
-                    }}
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-blue-50 flex items-center justify-between text-sm"
-                  >
-                    <span>
-                      <strong className="font-mono text-amber-700 mr-2">
-                        {d.courseCode}
-                      </strong>
-                      {d.title}
+                    <span className={`font-mono text-[10px] ${mutedText}`}>
+                      COURSE
                     </span>
-                    <span className="text-xs text-slate-400">{d.dueAt}</span>
                   </button>
                 ))}
             </div>

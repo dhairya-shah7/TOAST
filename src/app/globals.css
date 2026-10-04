@@ -3,22 +3,114 @@
 @tailwind utilities;
 
 :root {
-  --bg-canvas: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-subtle: #f1f5f9;
-  --border-default: #e2e8f0;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --accent-primary: #1d4ed8;
+  --vng-transition-speed: 150ms;
 }
 
-body {
-  background-color: var(--bg-canvas);
-  color: var(--text-primary);
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  -webkit-font-smoothing: antialiased;
+.font-orbitron {
+  font-family: var(--font-orbitron), sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Vengeance UI Isometric 3D Folder/Card Stack Physics */
+.iso-stack {
+  cursor: pointer;
+}
+.iso-stack-back {
+  transition: opacity 0.14s ease, transform 0.18s ease;
+}
+.iso-stack-front {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.iso-stack:hover .iso-stack-back,
+.iso-stack:active .iso-stack-back {
+  opacity: 0.15;
+}
+.iso-stack:hover .iso-stack-front,
+.iso-stack:active .iso-stack-front {
+  transform: translate(3.5px, 3.5px);
+}
+
+/* Vengeance UI Blueprint Grid Backgrounds */
+.vng-grid-light {
+  background-image: linear-gradient(
+      to right,
+      rgba(24, 24, 27, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(24, 24, 27, 0.032) 1px, transparent 1px);
+  background-size: 58px 58px;
+}
+
+.vng-grid-dark {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 58px 58px;
+}
+
+/* Vengeance UI Motion Island Surface (Light & Dark) */
+.vng-motion-island-light {
+  background-color: #f4f4f5;
+  box-shadow: 0 24px 72px -42px rgba(24, 24, 27, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.vng-motion-island-dark {
+  background-color: #0f1013;
+  box-shadow: 0 24px 72px -48px rgba(0, 0, 0, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Vengeance UI Floating Glass Card inside Motion Island */
+.vng-glass-card-light {
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 54px -36px rgba(24, 24, 27, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+}
+
+.vng-glass-card-dark {
+  background-color: rgba(10, 11, 15, 0.86);
+  box-shadow: 0 24px 54px -38px rgba(0, 0, 0, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+/* Vengeance UI Pop Button Shadow */
+.vng-pop-btn {
+  box-shadow: inset 0 0 0 1px rgba(24, 24, 27, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 18px -12px rgba(24, 24, 27, 0.65);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s ease;
+}
+.vng-pop-btn:hover {
+  transform: translateY(-1px);
+}
+.vng-pop-btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
 }
