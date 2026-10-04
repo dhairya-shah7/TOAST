@@ -1,0 +1,28 @@
+{
+  "name": "toast-university-os",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TOAST — Teaching, Organization, Academics & Student Technology (University Academic Operating System)",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.6.1",
+    "lucide-react": "^0.468.0",
+    "next": "^15.1.0",
+    "pdf-lib": "^1.17.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  }
+}
