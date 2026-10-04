@@ -1,0 +1,245 @@
+# TOAST — Teaching, Organization, Academics & Student Technology
+
+## The Modern University Academic Operating System
+
+> **TOAST is a purpose-built, high-concurrency Academic Operating System engineered from first principles for universities.**
+> Built on a 100% modern distributed server stack with a Daylight-First (Light-Themed) Institutional UI, TOAST unifies teaching, learning, student productivity, institutional governance, document intelligence, and gamification into a single platform capable of serving **5,000 to 25,000+ concurrent users**.
+
+---
+
+# 1. Vision
+
+Universities today force students, professors, and administrators to juggle a fragmented patchwork of tools:
+
+* Legacy course portals for syllabi and file dumps
+* Separate portals for attendance and timetables
+* External spreadsheets for project viva and lab slot bookings
+* Separate tools for assignments, coding labs, and timed quizzes
+* External utilities to compress PDFs and DOCX files under 2 MB upload limits
+* Disconnected task apps for deadline tracking
+* Separate tools for notes, AI study assistance, and revision
+* Disconnected scripts for degree credit tracking and accreditation (OBE / CO-PO) reports
+
+**TOAST unifies the entire university lifecycle into one cohesive operating system.**
+
+```text
+                                 TOAST
+                   (University Academic Operating System)
+                                   │
+     ┌─────────────────┬───────────┼───────────┬─────────────────┐
+     │                 │           │           │                 │
+Curriculum &      Teaching &   Productivity  Course AI &   Governance &
+Organization      Evaluation   & Documents   Intelligence   Engagement
+     │                 │           │           │                 │
+• Campuses        • Courses    • Timetable   • Course RAG   • Dynamic Rules
+• Departments     • Modules    • Attendance  • Study Chat   • Certificates
+• Degree Tracks   • Homework   • Deadlines   • Summarizer   • OBE / CO-PO
+• Semesters       • Live Exams • Compressor  • Quiz Drafter • Analytics
+• Sections/Labs   • Viva Slots • Offline PWA • Global ⌘K    • Alien Run XP
+```
+
+---
+
+# 2. Seven Core Pillars of TOAST
+
+```text
+TOAST University OS
+│
+├── 1. Institutional & Curriculum Core
+│   ├── Multi-Campus & Multi-School Tenant Isolation
+│   ├── Shared Cross-University Elective Catalog
+│   ├── Organizational Hierarchy (Colleges → Departments → Programs → Batches → Sections)
+│   ├── 8-Semester Degree Curriculum Pathways (Core Sets, Elective Sets, Prerequisites)
+│   └── University Role Hierarchy (Admin, Dean, HoD, Faculty Advisor, Instructor, TA, Student)
+│
+├── 2. Teaching, Learning & Assessment Engine
+│   ├── Structured Course Syllabus Tree & Module Progression
+│   ├── Assignments with Rubric Clickers, Late Policies & Plagiarism/Code AST Checks
+│   ├── High-Concurrency Timed Quizzes & Question Banks (LaTeX, MCQ, Numerical, Code)
+│   ├── Viva, Lab Evaluation & Faculty Office-Hours Slot Booking
+│   └── Credit-Weighted Gradebook (SGPA / CGPA & Relative/Absolute Curve Simulator)
+│
+├── 3. Student Productivity & Document Studio
+│   ├── Unified Weekly Class Timetable & Exam Schedule
+│   ├── Live Classroom Attendance (Rotating HMAC QR / 6-Digit Code + Subnet Verification)
+│   ├── Smart Deadline Priority Queue (Urgency × Credits × Progress Breakdown)
+│   ├── Built-in Server-Side PDF & DOCX Compressor (< 2 MB Target with Live Preview)
+│   └── Personal & Course Document Vault with Offline PWA Sync
+│
+├── 4. Institutional Automation & Governance
+│   ├── Dynamic Rules Engine ("When [Event] + If [Condition] → Execute [Action]")
+│   ├── Verifiable Digital Certificates & Recurring Lab/Safety Certifications (QR Hash)
+│   ├── Outcome-Based Education (OBE) CO-PO Attainment Matrix (NBA / NAAC / ABET)
+│   └── Custom Multi-Source Report Builder with Scheduled CSV/XLSX/PDF Exports
+│
+├── 5. Privacy-First AI Course Intelligence
+│   ├── Course-Scoped RAG Assistant (Grounded strictly in faculty-approved syllabus & notes)
+│   ├── One-Click Lecture PDF & Slide Deck Summarizer
+│   ├── Practice Question & Flashcard Generator for Revision
+│   ├── Faculty AI Copilot (Draft Quiz Questions, Rubrics & Lecture Outlines)
+│   └── Instant Global Semantic Search (⌘K / Ctrl+K across Courses, PDFs, Deadlines, People)
+│
+├── 6. Actionable Analytics & Early-Warning System
+│   ├── Student Academic Health (Attendance Margin, Safe-Bunk Calculator, Grade Trends)
+│   ├── Faculty Section Insights (Submission Velocity, Score Distribution, Question Difficulty)
+│   ├── Predictive At-Risk Student Detection (Flags Attendance < 75% or Missed Deadlines)
+│   └── Dean / HoD Department Heatmaps & Compliance Dashboards
+│
+└── 7. Engagement & Alien Run Gamification
+    ├── Event-Driven Academic XP Ledger (Streaks, On-Time Submissions, Quiz Mastery)
+    ├── Levels, Department/Section Leaderboards & Verifiable Skill Badges
+    └── Alien Run (Optional Interactive World Progression Powered by Real Academic Activity)
+```
+
+---
+
+# 3. University User Roles & Experiences
+
+## 3.1 Student Experience
+The student opens TOAST to an immediate, zero-clutter **Academic Command Center**:
+* **Top KPI Strip**: Overall Attendance % (with exact classes needed to stay $\ge 75\%$), Active Deadlines this week, Current SGPA/CGPA, and Academic XP/Streak.
+* **Today's Live Schedule**: Chronological lecture & lab timeline with room numbers, instructor names, and a 1-click **"Check-In Attendance"** button when a session is active.
+* **Smart Deadline Queue**: Prioritized pending assignments and quizzes with personal progress sliders (`0% → 100%`), milestone checklists, and direct submission modals.
+* **Built-In Document Studio & Compressor**: Preview PDFs/DOCX in-browser, compress oversized submissions to `< 2 MB` in one click without leaving the assignment page, and pin files for offline reading.
+* **Viva & Office-Hours Booking**: Book 15-minute project viva or lab evaluation slots directly from the course page.
+* **AI Study Copilot & Global Search (`⌘K`)**: Ask questions grounded in the professor's uploaded lecture notes (*"Explain LR(1) parsing from Module 3 slides"*).
+* **Alien Run**: Optional gamified world where academic XP unlocks levels, biome challenges, and rewards.
+
+## 3.2 Faculty (Professor / Course Coordinator / TA) Experience
+* **Today's Teaching & Live Attendance**: Launch a rotating 10-second QR code / 6-digit PIN on the classroom projector; watch real-time student check-ins populate via WebSockets.
+* **Course & Syllabus Studio**: Drag-and-drop modules, upload lecture PDFs/videos, tag learning outcomes (`CO1–CO6`), and schedule announcements.
+* **Split-Screen Speed Grader**: View student PDF/DOCX/Code submissions on the left, click rubric criteria on the right, leave inline feedback, and publish grades in bulk.
+* **Assessment & Question Bank Studio**: Build timed quizzes with randomized question pools, LaTeX support, campus lab IP locks, and focus-loss telemetry.
+* **Viva / Lab Slot Publisher**: Create time blocks for project evaluations; TOAST handles team slot booking and waitlists automatically.
+* **At-Risk Student Watchlist**: Automatically highlights students in the section whose attendance is below 75% or who have missed 2+ consecutive deadlines.
+
+## 3.3 Head of Department (HoD) & Dean Experience
+* **Department Command Dashboard**: Real-time attendance averages, course completion progress, and grade distributions across all batches and semesters.
+* **OBE & Accreditation Engine**: Automated Course Outcome (CO) to Program Outcome (PO) attainment calculations ready for accreditation audits.
+* **Curriculum & Degree Program Manager**: Define 8-semester degree structures, credit requirements, prerequisite chains, and elective buckets.
+* **Scheduled Executive Reports**: Receive automated Monday 8:00 AM PDF/XLSX digests of department attendance and academic health.
+
+## 3.4 University Administrator / IT Directorate Experience
+* **Multi-Campus & Organization Setup**: Manage campuses, schools, departments, academic years, semesters, and holiday calendars.
+* **Bulk SIS & User Provisioning**: Import thousands of students, roll numbers, cohorts, and course enrollments via CSV or SIS API sync.
+* **Dynamic Automation Rules Studio**: Configure institutional *"When [Trigger] + If [Condition] → Then [Action]"* workflows without writing code.
+* **Server Health & Queue Monitor**: Inspect live PostgreSQL pool saturation, Redis memory, MinIO storage usage, and Document Compressor / AI worker queues.
+
+---
+
+# 4. Institutional Light-Themed UI Design System ("Daylight Academic")
+
+University software is used for 6 to 10 hours a day in brightly lit lecture halls, computer laboratories, libraries, and faculty offices. TOAST is engineered **Light-Theme First** for maximum daytime readability, zero eye strain, and WCAG 2.1 AA+ contrast compliance (with an instant user-selectable Dark Mode toggle).
+
+### 4.1 Color Tokens (Light Mode Default)
+
+| Token | Value | Purpose |
+| :--- | :--- | :--- |
+| `--bg-canvas` | `#F8FAFC` (Slate 50) | Warm-cool off-white app canvas that eliminates harsh pure-white monitor glare |
+| `--bg-surface` | `#FFFFFF` (Pure White) | Crisp elevated cards, course modules, timetable grids, and grading sheets |
+| `--bg-subtle` | `#F1F5F9` (Slate 100) | Sidebar active states, table headers, secondary panels, and code blocks |
+| `--border-default` | `#E2E8F0` (Slate 200) | Clean 1px structural dividers and card borders |
+| `--text-primary` | `#0F172A` (Slate 900) | High-contrast primary headings and body copy (`15.8:1` contrast ratio) |
+| `--text-secondary` | `#475569` (Slate 600) | Course codes (`CS-301`), timestamps, instructor names, metadata |
+| `--text-muted` | `#64748B` (Slate 500) | Captions, input placeholders, helper text |
+| `--accent-primary` | `#1D4ED8` (Academic Blue 700) | Primary buttons, active navigation indicators, links, progress bars |
+| `--accent-tint` | `#EFF6FF` (Blue 50) | Active navigation pill background and selected table rows |
+| `--status-safe` | `#15803D` on `#DCFCE7` | Attendance $\ge 85\%$, Submitted On Time, Passed |
+| `--status-warn` | `#B45309` on `#FEF3C7` | Deadline $< 48\text{h}$, Attendance $75\%\text{–}84\%$, File $> 2\text{ MB}$ (Compress prompt) |
+| `--status-danger` | `#B91C1C` on `#FEE2E2` | Overdue, Attendance $< 75\%$ (Debarment Risk), Integrity Alert |
+| `--status-xp` | `#6D28D9` on `#F3E8FF` | Academic XP, Streaks, and Alien Run badges |
+
+### 4.2 Student Dashboard Wireframe (Light UI)
+
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ [🍞 TOAST]  Semester 5 • B.Tech CSE     [ 🔍 Search courses, PDFs, deadlines (⌘K) ] 🔔 👤│
+├──────────────────┬─────────────────────────────────────────────────────────────────────┤
+│ 🏠 Dashboard     │ Good morning, Dhairya 👋                       Mon, Oct 4 • Week 9  │
+│ 📚 My Courses    │                                                                     │
+│ 🗓️ Timetable     │ ┌─────────────────┐ ┌─────────────────┐ ┌───────────┐ ┌───────────┐ │
+│ ⏰ Deadlines (3) │ │ Attendance      │ │ Due This Week   │ │ CGPA      │ │ Streak/XP │ │
+│ 📄 Doc Studio    │ │ 86.4%  (Safe)   │ │ 3 Pending       │ │ 8.84      │ │ 🔥 12d    │ │
+│ 🎯 Viva Booking  │ │ +4 classes buff │ │ 1 due tomorrow  │ │ Sem 5     │ │ 2,450 XP  │ │
+│ 📊 Analytics     │ └─────────────────┘ └─────────────────┘ └───────────┘ └───────────┘ │
+│ 👾 Alien Run     │                                                                     │
+│ ⚙️ Settings      │ TODAY'S CLASSES                          SMART DEADLINE QUEUE       │
+│                  │ ┌─────────────────────────────────────┐  ┌────────────────────────┐ │
+│                  │ │ 10:00 AM • CS-301 Compiler Design   │  │ ⚠️ Due Tomorrow 11:59PM│ │
+│                  │ │ Room LH-204 • Prof. Sharma          │  │ CS-301 LR Parser Lab   │ │
+│                  │ │ [🟢 Check-In Live Attendance]       │  │ Progress: ████░░░ 60%  │ │
+│                  │ ├─────────────────────────────────────┤  │ [Compress PDF] [Submit]│ │
+│                  │ │ 12:00 PM • CS-302 Operating Systems │  ├────────────────────────┤ │
+│                  │ │ Room LH-102 • Prof. Verma           │  │ 📅 Due Friday 5:00 PM  │ │
+│                  │ ├─────────────────────────────────────┤  │ CS-304 Security Report │ │
+│                  │ │ 02:30 PM • CS-301P Compiler Lab     │  │ Progress: ██░░░░░ 25%  │ │
+│                  │ │ Lab 4 • Viva Slot Booked (03:15 PM) │  └────────────────────────┘ │
+│                  │ └─────────────────────────────────────┘                             │
+│                  │                                                                     │
+│                  │ ┌─────────────────────────────────────────────────────────────────┐ │
+│                  │ │ ✨ TOAST AI Study Copilot (Grounded in your Sem 5 Course Notes) │ │
+│                  │ │ "Summarize today's Compiler Design Module 3 slides..."    [Ask] │ │
+│                  │ └─────────────────────────────────────────────────────────────────┘ │
+└──────────────────┴─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+# 5. High-Concurrency Multi-User Server Architecture (5,000–25,000+ Users)
+
+University platforms face **extreme synchronized concurrency bursts**:
+1. **08:55–09:05 AM**: Thousands of students open dashboards and check into live attendance simultaneously.
+2. **10:00:00 AM Exam Start**: 1,500+ students start a timed mid-semester quiz at the exact same second.
+3. **11:55–11:59 PM Deadline Stampede**: Hundreds of students compress and upload multi-megabyte PDFs/DOCX files simultaneously.
+
+### 5.1 Distributed Server Stack
+
+```text
+                       Users (5,000 - 25,000+ Concurrent)
+                                       │
+                        Nginx / Envoy Load Balancer + WAF
+                                       │
+         ┌─────────────────────────────┼─────────────────────────────┐
+         ▼                             ▼                             ▼
+  Next.js 15 Cluster          TOAST Core API Cluster       WebSocket / SSE Cluster
+ (Stateless SSR/Edge)        (FastAPI / Node.js Nodes)    (Live Attendance & Exams)
+         │                             │                             │
+         └─────────────────────────────┼─────────────────────────────┘
+                                       │
+         ┌─────────────────────────────┼─────────────────────────────┐
+         ▼                             ▼                             ▼
+  Redis 7 Cluster                 PgBouncer Pooler           MinIO / S3 Storage
+ • Sessions & JWT Revoke         (10k Conns → 200 PG)       • Presigned Uploads
+ • Live Exam Answer Buffer             │                    • Course PDFs & Videos
+ • SWR Dashboard Cache        ┌────────┴────────┐           • Compressed Vault
+ • BullMQ / Celery Queues     ▼                 ▼
+                       PostgreSQL 16     PostgreSQL 16
+                          Primary         Read Replicas
+                        (ACID Writes)   (Dashboards/Search)
+                              │
+                              ▼
+               Isolated Background Worker Cluster
+        ┌──────────────┬──────────────┬──────────────┐
+        ▼              ▼              ▼              ▼
+  PDF/DOCX       Dynamic Rules   Exam Grader &   Privacy-First
+ Compressor      & Notification  OBE Report      AI Course RAG
+  Workers           Workers        Workers         Workers
+```
+
+### 5.2 Key Server Engineering Principles
+* **Zero-Proxy Presigned File Uploads**: File bytes never pass through Core API memory. Clients upload directly to MinIO/S3 via presigned URLs and trigger async worker jobs.
+* **Lock-In Submission Timestamps**: When a student submits a file for compression at `11:58:45 PM`, the submission timestamp is recorded immediately upon upload so background compression queue time never triggers a late penalty.
+* **Redis-Buffered Live Exams**: Quiz answers are saved to Redis hashes in `< 5 ms` and batch-flushed to PostgreSQL asynchronously, eliminating database lock contention during mass exams.
+* **PgBouncer Connection Multiplexing**: Pools thousands of stateless API and worker connections down to a tight set of physical PostgreSQL connections, with read-heavy dashboard and analytics queries routed to Read Replicas.
+
+---
+
+# 6. Phased Execution Roadmap
+
+* **Phase 0 — University Server Foundation**: Monorepo setup, Docker Compose cluster (`PostgreSQL 16 + PgBouncer + Redis 7 + MinIO + Nginx`), Database migrations, RBAC & University SSO authentication, and Light-Themed UI Design System tokens.
+* **Phase 1 — Core Academic OS & Dashboards**: University organizational hierarchy (Departments, Programs, Semesters, Sections), Student/Faculty/Admin Light-UI Dashboards, Course Syllabus Tree, Timetable, and Live QR/PIN Attendance.
+* **Phase 2 — Productivity, Smart Deadlines & Document Studio**: Smart Deadline Priority Engine, Assignment & Rubric Workflows, Presigned S3 File Vault, and the asynchronous `< 2 MB` PDF/DOCX Compressor microservice.
+* **Phase 3 — High-Concurrency Exams, Viva Booking & Gradebook**: Question Bank, Redis-buffered Timed Quiz Engine, Viva/Office-Hours Appointment Booking, and Credit-Weighted SGPA/CGPA Gradebook.
+* **Phase 4 — Institutional Automation, Certificates & Analytics**: Dynamic *"If-This-Then-That"* Rule Engine, Verifiable QR Certificates, Predictive At-Risk Student Detection, OBE CO-PO Attainment, and Custom Report Builder.
+* **Phase 5 — Privacy-First AI Course Intelligence**: Course-scoped RAG ingestion pipeline (`pgvector`), AI Study Copilot, PDF Summarizer, Faculty Quiz/Rubric Drafter, and `⌘K` Global Semantic Search.
+* **Phase 6 — Gamification & Alien Run**: Event-driven Academic XP Ledger, Streaks, Badges, Section Leaderboards, and the interactive Alien Run progression world.
